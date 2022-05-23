@@ -16,7 +16,8 @@ class GameBoard {
     for (let i = 0; i < size; i++) {
       const newCell = document.createElement('div')
       newCell.classList.add('cell')
-      if (i<10 || i>89) {newCell.classList.add('top-row')} // add a class to first and last row
+      if (i < 10 || i > 89) {newCell.classList.add('top-row')} // add a class to first and last row
+      if (i > 52 && i < 56) {newCell.classList.add('top-row')} // add a class cells for table
       newCell.dataset.index = i // add index as text in the cell
       newCell.textContent = newCell.dataset.index
       gridContainer.appendChild(newCell)
@@ -34,57 +35,73 @@ const board = new GameBoard(10, 10)
 //PLAYER CLASS
 class Player {
   constructor() {
-    this.initialPosition = 55
-    this.currentPosition = this.initialPosition
+    this.initialPosition = 21
+    this.position = this.initialPosition
+    this.className = 'player'
     
   }
 
   show() {
-    cellsArr[this.currentPosition].classList.add('player')
+    cellsArr[this.position].classList.add(this.className)
   }
-
+  
   hide() {
-    cellsArr[this.currentPosition].classList.remove('player')
+    cellsArr[this.position].classList.remove(this.className)
+  }
+  
+  resetClass() {
+    this.className = "player"
   }
 
   moveUp() {
     // stop player from going in first row
-    if (this.currentPosition < 20) {
+    if (this.position < 20) {
       return
     }
     this.hide()
-    this.currentPosition -= board.width
+    this.position -= board.width
     this.show()
   }
 
   moveDown() {
     // stop player from going in last row
-    if (this.currentPosition > 79) {
+    if (this.position > 79) {
       return
     }
     this.hide()
-    this.currentPosition += board.width
+    this.position += board.width
     this.show()
   }
   
   moveLeft() {
     // stop player from leaving board
-    if (this.currentPosition % (board.width) === 0) {
+    if (this.position % (board.width) === 0) {
       return
     }
     this.hide()
-    this.currentPosition -= 1
+    this.position -= 1
     this.show()
   }
   
   moveRight() {
     // stop player from leaving board
-    if ((this.currentPosition + 1) % (board.width) === 0) {
+    if ((this.position + 1) % (board.width) === 0) {
       return
     }
     this.hide()
-    this.currentPosition += 1
+    this.position += 1
     this.show()
+  }
+
+    // change player's class when ingredient is picked
+  changeToFish() {
+    cellsArr[this.position].classList.add('chef-fish')
+    this.className = 'chef-fish'
+  }
+
+  changeToRice() {
+    cellsArr[this.position].classList.add('chef-rice')
+    this.className = 'chef-rice'
   }
 }
 
@@ -98,7 +115,7 @@ player.show()
 class Pass {
   constructor() {
     this.position = 99
-
+    this.show = this.show() // show pass when created
   }
 
   show() {
@@ -109,78 +126,52 @@ class Pass {
 
 // CREATE AND SHOW PASS
 const pass = new Pass
-pass.show()
+
+
+// INGREDIENT CLASS
+class Ingredient {
+  constructor(position, className, chefClassName) {
+    this.className = className
+    this.position = position
+    this.show = this.show() // show ingredient when created
+    this.isPicked = false
+    this.chefClassName = chefClassName
+  }
+
+  show() {
+    cellsArr[this.position].classList.add(this.className)
+    }
+
+  pick() {
+    cellsArr[this.position].classList.toggle(this.className) // toggle className when picked
+    this.isPicked = !this.isPicked // change state of isPicked
+    console.log(`You picked the ${this.className}!`);
+
+    // player.classList.add(this.chefClassName) // NOT WORKING
+    }
+
+    drop() {
+
+    }
+  }
 
 
 
 
+// CREATE AND SHOW INGREDIENTS
+const fish = new Ingredient(4, 'ingredient1', 'chef-fish')
+const rice = new Ingredient(6, 'ingredient2')
 
+const ingredientsArr = [fish, rice]
+console.log('ingredientsArr:', ingredientsArr)
 
-// // CHOSE INGREDIENT LOCATION
-// // Can be done 2 ways, which is best ?
-// const ingredient1 = document.querySelector("[data-index = '3']")
-// ingredient1.classList.add("ingredient1")
-
-// const ingredient2 = cellsArr[5]
-// ingredient2.classList.add("ingredient2")
-
-
-// // CHOSE PASS LOCATION
-// const thePass = cellsArr[99]
-// thePass.classList.add("the-pass")
-
-
-// // SHOW PLAYER
-// function showPlayer() {
-//   // Show the player in the currentPosition
-//   cellsArr[currentPosition].classList.add('player')
-  
-// }
-// showPlayer()
-
-// // let player = document.querySelector('.player')
-// // console.log('player:', player)
-// // console.log("index", player.dataset.index);
-
-
-// // REMOVE PLAYER
-// function removePlayer() {
-//   // stop showing the player in the currentPosition
-//   cellsArr[currentPosition].classList.remove('player')
-// }
-
-
-// //MOVE PLAYER
-// function movePlayer(newPosition) {
-//   // stop player from going in first row
-//   if (newPosition < 10) {
-//     return
-//   }
-//     // stop player from going in last row
-//   if (newPosition > gridWidth * gridHeight - 11) {
-//     return
-//   }
-//   removePlayer()
-//   currentPosition = newPosition
-
-//   showPlayer()
-// }
-
-
-
-// // PICK INGREDIENT
-// function pickIngredient() {
-//   ingredient1.classList.toggle("ingredient1")
-//   player.classList.toggle("chef-fish")
-
-// }
 
 
 
 // EVENT LISTENERS
 // Arrows
 document.addEventListener('keydown', function (event) {
-  console.log(event.key, event.keyCode, event.code)
+  // console.log(event.key, event.code)
 
   switch (event.key) {
     case 'ArrowUp':
@@ -201,12 +192,46 @@ document.addEventListener('keydown', function (event) {
 })
 
 
-// // Space bar
+// Space bar
 document.addEventListener('keyup', event => {
   if (event.code === 'Space') {
-    // pickIngredient()
-    console.log('Space pressed'); 
-  }
+
+    // check if any ingredient is picked
+    let isAnyPicked = null;
+    for(var i=0; i<ingredientsArr.length; i++) {
+      if(ingredientsArr[i].isPicked === true ) {
+        isAnyPicked = true;
+        break;
+      }
+    }
+        
+    // check if player is in front of fish
+    if (player.position - board.width === fish.position) {
+      if (isAnyPicked) {
+        return
+      }  
+      fish.pick()
+      player.hide()
+      player.changeToFish()
+    }
+    // check if player is in front of rice
+    if (player.position - board.width === rice.position) {
+      if (isAnyPicked) {
+        return
+        } 
+      rice.pick()
+      player.hide()
+      player.changeToRice()
+    }
+
+    // check if player is in front of plate
+    if (player.position === 43) {
+      if (fish.isPicked === true) {
+        // fish.drop()
+        player.resetClass()
+      }
+    }
+  }   
 })
 
 

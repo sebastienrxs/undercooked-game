@@ -38,6 +38,10 @@
   background-image: url('./images/chef-fish.png');
 }
 
+.chef-rice {
+  background-image: url('./images/chef-rice.png');
+}
+
 .top-row {
   background-color: rgb(204, 204, 204);
 }
