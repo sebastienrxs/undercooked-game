@@ -17,7 +17,7 @@ class GameBoard {
       const newCell = document.createElement('div')
       newCell.classList.add('cell')
       if (i < 10 || i > 89) {newCell.classList.add('top-row')} // add a class to first and last row
-      if (i > 52 && i < 56) {newCell.classList.add('top-row')} // add a class cells for table
+      if (i > 52 && i < 56) {newCell.classList.add('top-row')} // add a class cells for the table
       newCell.dataset.index = i // add index as text in the cell
       newCell.textContent = newCell.dataset.index
       gridContainer.appendChild(newCell)
@@ -46,11 +46,14 @@ class Player {
   }
   
   hide() {
-    cellsArr[this.position].classList.remove(this.className)
+    // remove 'player' class and classes added by pick()
+    cellsArr[this.position].classList.remove(this.className, fish.chefClassName, rice.chefClassName)
   }
   
   resetClass() {
-    this.className = "player"
+    this.hide()
+    this.className = 'player'
+    this.show()
   }
 
   moveUp() {
@@ -146,11 +149,10 @@ class Ingredient {
     cellsArr[this.position].classList.toggle(this.className) // toggle className when picked
     this.isPicked = !this.isPicked // change state of isPicked
     console.log(`You picked the ${this.className}!`);
-
-    // player.classList.add(this.chefClassName) // NOT WORKING
     }
 
     drop() {
+      this.isPicked = false
 
     }
   }
@@ -227,7 +229,11 @@ document.addEventListener('keyup', event => {
     // check if player is in front of plate
     if (player.position === 43) {
       if (fish.isPicked === true) {
-        // fish.drop()
+        fish.drop()
+        player.resetClass()
+      }
+      if (rice.isPicked === true) {
+        // rice.drop()
         player.resetClass()
       }
     }
