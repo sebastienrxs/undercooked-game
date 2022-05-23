@@ -1,0 +1,59 @@
+* {
+  box-sizing: border-box;
+}
+
+.grid {
+  display: flex;
+  height: 600px;
+  width: 600px;
+  flex-wrap: wrap;
+}
+
+.cell {
+  border: 1px solid rgb(91, 91, 91);
+  width: 60px;
+  height: 60px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.ingredient1 {
+  background-image: url('./images/fish.png');
+}
+
+.ingredient2 {
+  background-image: url('./images/rice.png');
+}
+
+.the-pass {
+  background-image: url('./images/pass.png');
+}
+
+.player {
+  background-image: url('./images/chef.png');
+}
+
+.chef-fish {
+  background-image: url('./images/chef-fish.png');
+}
+
+.top-row {
+  background-color: rgb(204, 204, 204);
+}
+
+
+
+/* paddington game */
+
+.marmalade {
+  background-image: url('https://static.wikia.nocookie.net/paddingtonbear/images/9/95/Jar_of_Marmalade.png');
+}
+
+.marmalade.eaten {
+  background-image: url('https://static.wikia.nocookie.net/paddingtonbear/images/f/fa/Spilled_Jar_of_Marmalade.png');
+}
+.paddington.marmalade.eaten {
+  background-image: url('https://2.bp.blogspot.com/-kQFVZT-wee4/XFW4-K-crkI/AAAAAAAAI_U/60FpZ-gaeJEitxhvBev2gcI1xOUrVy1YwCLcBGAs/s1600/Paddington%2BTransparent.png'),
+    url('https://static.wikia.nocookie.net/paddingtonbear/images/f/fa/Spilled_Jar_of_Marmalade.png');
+}
