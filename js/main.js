@@ -45,10 +45,9 @@ class Player {
 
   hide() {
     cellsArr[this.currentPosition].classList.remove('player')
-
   }
 
-  moveUp () {
+  moveUp() {
     // stop player from going in first row
     if (this.currentPosition < 20) {
       return
@@ -58,7 +57,7 @@ class Player {
     this.show()
   }
 
-  moveDown () {
+  moveDown() {
     // stop player from going in last row
     if (this.currentPosition > 79) {
       return
@@ -68,7 +67,7 @@ class Player {
     this.show()
   }
   
-  moveLeft () {
+  moveLeft() {
     // stop player from leaving board
     if (this.currentPosition % (board.width) === 0) {
       return
@@ -78,7 +77,7 @@ class Player {
     this.show()
   }
   
-  moveRight () {
+  moveRight() {
     // stop player from leaving board
     if ((this.currentPosition + 1) % (board.width) === 0) {
       return
@@ -87,7 +86,6 @@ class Player {
     this.currentPosition += 1
     this.show()
   }
-
 }
 
 
@@ -96,26 +94,26 @@ const player = new Player
 player.show()
 
 
+// PASS CLASS
+class Pass {
+  constructor() {
+    this.position = 99
+
+  }
+
+  show() {
+  cellsArr[this.position].classList.add('the-pass')
+  }
+}
 
 
-// // CELL INDEX OF PLAYER
-// const initialPosition = 10
-// let currentPosition = initialPosition
+// CREATE AND SHOW PASS
+const pass = new Pass
+pass.show()
 
 
 
-// // CREATE CELLS
-// function createCells() {
-//   for (let i = 0; i < gridWidth * gridHeight; i++) {
-//     const cell = document.createElement('div')
-//     cell.classList.add('cell')
-//     cell.textContent = i // add index as text in the cell
-//     if (i<10 || i>89) {cell.classList.add('top-row')} // add a class to first and last row
-//     cell.dataset.index = i 
-//     gridContainer.appendChild(cell)
-//     cellsArr.push(cell)
-//   }
-// }
+
 
 
 // // CHOSE INGREDIENT LOCATION
