@@ -1,9 +1,10 @@
-// CONST
+// const
 const gridContainer = document.querySelector('.grid')
 const cellsArr = []
 
 
-// GAMEBOARD CLASS
+
+ /* GAMEBOARD CLASS */
 class GameBoard {
   constructor(width, height) {
     this.width = width
@@ -27,12 +28,12 @@ class GameBoard {
 }
 
 
-// CREATE NEW BOARD
+// create new board
 const board = new GameBoard(10, 10)
 
 
 
-//PLAYER CLASS
+/* PLAYER CLASS */
 class Player {
   constructor() {
     this.initialPosition = 21
@@ -108,13 +109,13 @@ class Player {
   }
 }
 
-
-// CREATE AND SHOW PLAYER
+// create and show player
 const player = new Player
 player.show()
 
 
-// PASS CLASS
+
+/* PASS CLASS */
 class Pass {
   constructor() {
     this.position = 99
@@ -126,18 +127,28 @@ class Pass {
   }
 }
 
-
-// CREATE AND SHOW PASS
+// create and show pass
 const pass = new Pass
 
 
-// INGREDIENT CLASS
+
+/* PLATE CLASS */
+class Plate {
+  constructor() {
+    this.isPicked = false
+    this.className = 'plate'
+  }
+}
+
+
+/*  INGREDIENT CLASS  */
 class Ingredient {
   constructor(position, className, chefClassName) {
     this.className = className
     this.position = position
     this.show = this.show() // show ingredient when created
     this.isPicked = false
+    this.isInPlate = false
     this.chefClassName = chefClassName
   }
 
@@ -157,14 +168,11 @@ class Ingredient {
     }
   }
 
-
-
-
-// CREATE AND SHOW INGREDIENTS
+// create and show ingredients
 const fish = new Ingredient(4, 'ingredient1', 'chef-fish')
 const rice = new Ingredient(6, 'ingredient2')
 
-const ingredientsArr = [fish, rice]
+const ingredientsArr = [fish, rice] // update manually if you create a new ingredient
 console.log('ingredientsArr:', ingredientsArr)
 
 
@@ -198,7 +206,7 @@ document.addEventListener('keydown', function (event) {
 document.addEventListener('keyup', event => {
   if (event.code === 'Space') {
 
-    // check if any ingredient is picked
+    // INGREDIENT - check if any ingredient is picked
     let isAnyPicked = null;
     for(var i=0; i<ingredientsArr.length; i++) {
       if(ingredientsArr[i].isPicked === true ) {
@@ -207,7 +215,7 @@ document.addEventListener('keyup', event => {
       }
     }
         
-    // check if player is in front of fish
+    // FISH - check if player is in front of fish
     if (player.position - board.width === fish.position) {
       if (isAnyPicked) {
         return
@@ -216,7 +224,7 @@ document.addEventListener('keyup', event => {
       player.hide()
       player.changeToFish()
     }
-    // check if player is in front of rice
+    // RICE - check if player is in front of rice
     if (player.position - board.width === rice.position) {
       if (isAnyPicked) {
         return
@@ -226,14 +234,14 @@ document.addEventListener('keyup', event => {
       player.changeToRice()
     }
 
-    // check if player is in front of plate
+    // PLATE - check if player is in front of plate
     if (player.position === 43) {
       if (fish.isPicked === true) {
         fish.drop()
         player.resetClass()
       }
       if (rice.isPicked === true) {
-        // rice.drop()
+        rice.drop()
         player.resetClass()
       }
     }

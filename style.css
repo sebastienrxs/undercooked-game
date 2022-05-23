@@ -42,22 +42,10 @@
   background-image: url('./images/chef-rice.png');
 }
 
+.plate {
+  background-image: url('./images/plate.png');
+}
+
 .top-row {
   background-color: rgb(204, 204, 204);
-}
-
-
-
-/* paddington game */
-
-.marmalade {
-  background-image: url('https://static.wikia.nocookie.net/paddingtonbear/images/9/95/Jar_of_Marmalade.png');
-}
-
-.marmalade.eaten {
-  background-image: url('https://static.wikia.nocookie.net/paddingtonbear/images/f/fa/Spilled_Jar_of_Marmalade.png');
-}
-.paddington.marmalade.eaten {
-  background-image: url('https://2.bp.blogspot.com/-kQFVZT-wee4/XFW4-K-crkI/AAAAAAAAI_U/60FpZ-gaeJEitxhvBev2gcI1xOUrVy1YwCLcBGAs/s1600/Paddington%2BTransparent.png'),
-    url('https://static.wikia.nocookie.net/paddingtonbear/images/f/fa/Spilled_Jar_of_Marmalade.png');
 }
