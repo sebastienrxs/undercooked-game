@@ -135,10 +135,28 @@ const pass = new Pass
 /* PLATE CLASS */
 class Plate {
   constructor() {
+    this.position = 53
     this.isPicked = false
     this.className = 'plate'
+    this.show = this.show() // show plate when created
+    }
+
+    show() {
+      cellsArr[this.position].classList.add('plate')
+      }
+
+      changeToFish() {
+        this.className = ''
+        cellsArr[this.position].classList.add('plate-fish')
+      }
+
+      changeToFishRice() {
+        this.className = ''
+        cellsArr[this.position].classList.add('plate-fish-rice')
+      }
   }
-}
+
+plate = new Plate
 
 
 /*  INGREDIENT CLASS  */
@@ -162,9 +180,9 @@ class Ingredient {
     console.log(`You picked the ${this.className}!`);
     }
 
-    drop() {
+    drop(className) {
       this.isPicked = false
-
+      this.isInPlate = true
     }
   }
 
@@ -178,7 +196,8 @@ console.log('ingredientsArr:', ingredientsArr)
 
 
 
-// EVENT LISTENERS
+/* EVENT LISTENERS */
+
 // Arrows
 document.addEventListener('keydown', function (event) {
   // console.log(event.key, event.code)
@@ -206,17 +225,27 @@ document.addEventListener('keydown', function (event) {
 document.addEventListener('keyup', event => {
   if (event.code === 'Space') {
 
-    // INGREDIENT - check if any ingredient is picked
+    // PICKED - check if any ingredient is picked
     let isAnyPicked = null;
     for(var i=0; i<ingredientsArr.length; i++) {
-      if(ingredientsArr[i].isPicked === true ) {
+      if(ingredientsArr[i].isPicked === true) {
         isAnyPicked = true;
         break;
-      }
+      }      
+    }
+    
+    // IN PLATE - check if any ingredient is in plate - NOT WORKING
+    let isAnyInPlate = null;
+    for(var i=0; i<ingredientsArr.length; i++) {
+      if(ingredientsArr[i].isInPlate === true) {
+        isAnyInPlate = true;
+        break;
+      }      
     }
         
     // FISH - check if player is in front of fish
     if (player.position - board.width === fish.position) {
+      // if one ingredient is already picked, cant pick another one
       if (isAnyPicked) {
         return
       }  
@@ -235,10 +264,16 @@ document.addEventListener('keyup', event => {
     }
 
     // PLATE - check if player is in front of plate
-    if (player.position === 43) {
+    if (player.position + 10 === plate.position) {
       if (fish.isPicked === true) {
-        fish.drop()
         player.resetClass()
+        fish.drop()
+        plate.changeToFish()
+      }
+      if (fish.isInPlate === true && rice.isPicked === true) {
+        player.resetClass()
+        rice.drop()
+        plate.changeToFishRice()
       }
       if (rice.isPicked === true) {
         rice.drop()

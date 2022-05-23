@@ -46,6 +46,14 @@
   background-image: url('./images/plate.png');
 }
 
+.plate-fish {
+  background-image: url('./images/plate-fish.png');
+}
+
+.plate-fish-rice {
+  background-image: url('./images/plate-fish-rice.png');
+}
+
 .top-row {
   background-color: rgb(204, 204, 204);
 }
