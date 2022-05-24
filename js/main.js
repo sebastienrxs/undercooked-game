@@ -1,7 +1,8 @@
 // const and query selectors
 const gridContainer = document.querySelector('.grid')
 const cellsArr = []
-const modal = document.querySelector('#modal')
+const modalPopUp = document.querySelector('#modal-popup')
+console.log('modalPopUp:', modalPopUp)
 
 
 
@@ -244,10 +245,9 @@ console.log('ingredientsArr:', ingredientsArr)
 
 /* DISPLAY MODAL */
 function displayModal(text) {
-  modal.textContent = text
-  let toggleHidden = () => {modal.classList.toggle('hidden')}
+  modalPopUp.textContent = text
+  let toggleHidden = () => {modalPopUp.classList.toggle('hidden')}
   toggleHidden()
-  // setTimeout(toggleHidden(), 3000)
 }
 
 function displayModal2(text) {
@@ -262,7 +262,7 @@ function displayModal2(text) {
   setTimeout(() => {
     toggleHidden()
     sectionModal.removeChild(newModal)
-  }, 1000);
+  }, 2000);
 }
 
 
@@ -361,7 +361,7 @@ document.addEventListener('keyup', event => {
         player.resetClass()
         fish.drop()
         plate.changeToFish()
-        displayModal2('The fish is in the plate!')
+        displayModal2('You dropped the fish! Go get the rice!')
       }
       
       //if player has rice and fish is in plate
@@ -369,7 +369,7 @@ document.addEventListener('keyup', event => {
         player.resetClass()
         rice.drop()
         plate.changeToFishRice()
-        displayModal2('All your ingredients are in the plate!')
+        displayModal2('All your ingredients are in the plate! Pick it up!')
       }
       
       // if player has rice
@@ -384,6 +384,7 @@ document.addEventListener('keyup', event => {
         player.resetClass()
         fish.drop()
         plate.changeToFishRice()
+        displayModal2('All your ingredients are in the plate!')
       }
     }
 
@@ -395,6 +396,7 @@ document.addEventListener('keyup', event => {
         plate.hide()
         player.changeToPlate()
         plate.pick()
+        displayModal2('Bring the plate to the pass!')
       }
     }
 
@@ -409,6 +411,7 @@ document.addEventListener('keyup', event => {
         plate.drop()
         pass.showPlate()
         winPoint()
+        displayModal('Congrats! The customer is happy!')
       }
     }
   }   

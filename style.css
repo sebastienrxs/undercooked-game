@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
-
 * {
   box-sizing: border-box;
+  margin: 0;
 }
+
 
 /* GRID AND CELLS */
 .grid {
@@ -36,6 +37,10 @@
   
 }
 
+.game-container {
+  margin: 0px 20px;
+}
+
 .section1 {
   /* background-image: url("./images/background1.png"); */
 }
@@ -45,6 +50,7 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  margin: 20px 0px; 
 }
 
 
@@ -84,7 +90,6 @@ h1 {
 }
 
 
-
 /* PLAYER */
 .player {
   background-image: url('./images/chef.png');
@@ -101,7 +106,6 @@ h1 {
 .chef-plate {
   background-image: url('./images/chef-plate.png');
 }
-
 
 
 /* PLATE */
@@ -122,7 +126,6 @@ h1 {
 }
 
 
-
 /* MODALS */
 .hidden {
   visibility: hidden;
@@ -134,14 +137,25 @@ h1 {
   font-size: 28px;
 }
 
+#modal-popup {
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-self: center ;
+  background-color: rgb(60, 255, 0);
+  font-family: 'VT323', monospace;
+  font-size: 48px;
+  animation: colorchangebck 1s infinite alternate;
+}
+
 
 /* ANIMATIONS */
 
 .color-change {
-  -webkit-animation:colorchange 1s infinite alternate;
+  animation: colorchange 1s infinite alternate;
 }
 
-@-webkit-keyframes colorchange {
+@keyframes colorchange {
   0% {        
     color: blue;
   }
@@ -153,5 +167,20 @@ h1 {
   }
   75% {
     color: magenta;
+  }
+}
+
+@keyframes colorchangebck {
+  0% {        
+    background-color: rgb(139, 139, 255);
+  }
+  25% {
+    background-color: rgb(252, 115, 115);
+  }
+  50% {
+    background-color: rgb(127, 255, 127);
+  }
+  75% {
+    background-color: rgb(255, 106, 255);
   }
 }
