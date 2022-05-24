@@ -1,6 +1,7 @@
-// const
+// const and query selectors
 const gridContainer = document.querySelector('.grid')
 const cellsArr = []
+const modal = document.querySelector('#modal')
 
 
 
@@ -19,6 +20,19 @@ class GameBoard {
       newCell.classList.add('cell')
       if (i < 10 || i > 89) {newCell.classList.add('top-row')} // add a class to first and last row
       if (i > 52 && i < 56) {newCell.classList.add('top-row')} // add a class cells for the table
+      // add new class every two line and two cell to make tiles
+      if (i > 9 && i < 20 || i > 29 && i < 40 || i > 49 && i < 60 || i > 69 && i < 80) {
+        if (i % 2 === 1){
+          newCell.classList.add('cell2')
+        }
+      }
+
+      if (i > 19 && i < 30 || i > 39 && i < 50 || i > 59 && i < 70 || i > 79 && i < 90) {
+        if (i % 2 === 0){
+          newCell.classList.add('cell2')
+        }
+      }
+
       newCell.dataset.index = i // add index as text in the cell
       newCell.textContent = newCell.dataset.index
       gridContainer.appendChild(newCell)
@@ -55,6 +69,23 @@ class Player {
     this.hide()
     this.className = 'player'
     this.show()
+  }
+
+    // change player's class when ingredient is picked
+  changeToFish() {
+    cellsArr[this.position].classList.add('chef-fish')
+    this.className = 'chef-fish'
+  }
+
+  changeToRice() {
+    cellsArr[this.position].classList.add('chef-rice')
+    this.className = 'chef-rice'
+  }
+
+  changeToPlate(){
+    cellsArr[this.position].classList.add('chef-plate')
+    this.className = 'chef-plate'
+
   }
 
   moveUp() {
@@ -96,17 +127,6 @@ class Player {
     this.position += 1
     this.show()
   }
-
-    // change player's class when ingredient is picked
-  changeToFish() {
-    cellsArr[this.position].classList.add('chef-fish')
-    this.className = 'chef-fish'
-  }
-
-  changeToRice() {
-    cellsArr[this.position].classList.add('chef-rice')
-    this.className = 'chef-rice'
-  }
 }
 
 // create and show player
@@ -125,6 +145,11 @@ class Pass {
   show() {
   cellsArr[this.position].classList.add('the-pass')
   }
+
+  showPlate() {
+    cellsArr[this.position].classList.remove('the-pass')
+    cellsArr[this.position].classList.add('pass-plate')
+  }
 }
 
 // create and show pass
@@ -138,25 +163,46 @@ class Plate {
     this.position = 53
     this.isPicked = false
     this.className = 'plate'
-    this.show = this.show() // show plate when created
+    // this.show = this.show() // show plate when created
     }
 
     show() {
       cellsArr[this.position].classList.add('plate')
       }
 
-      changeToFish() {
-        this.className = ''
-        cellsArr[this.position].classList.add('plate-fish')
+    hide() {
+      // remove classes added by pick()
+      cellsArr[this.position].classList.remove('plate', 'plate-fish', 'plate-fish-rice', 'plate-rice')
+    }
+
+    changeToFish() {
+      this.className = ''
+      cellsArr[this.position].classList.add('plate-fish')
+    }
+
+    changeToFishRice() {
+      this.className = ''
+      cellsArr[this.position].classList.add('plate-fish-rice')
+    }
+
+    changeToRice() {
+      this.className = ''
+      cellsArr[this.position].classList.add('plate-rice')
+    }
+
+    pick() {
+      this.isPicked = !this.isPicked // change state of isPicked
+      console.log(`You picked the ${this.className}!`);
       }
 
-      changeToFishRice() {
-        this.className = ''
-        cellsArr[this.position].classList.add('plate-fish-rice')
-      }
-  }
+    drop() {
+      this.isPicked = !this.isPicked
+    }
+}  
 
-plate = new Plate
+const plate = new Plate
+plate.show()
+
 
 
 /*  INGREDIENT CLASS  */
@@ -175,16 +221,17 @@ class Ingredient {
     }
 
   pick() {
+    if (this.isInPlate) {return}
     cellsArr[this.position].classList.toggle(this.className) // toggle className when picked
     this.isPicked = !this.isPicked // change state of isPicked
     console.log(`You picked the ${this.className}!`);
     }
 
-    drop(className) {
-      this.isPicked = false
-      this.isInPlate = true
-    }
+  drop() {
+    this.isPicked = false
+    this.isInPlate = true
   }
+}
 
 // create and show ingredients
 const fish = new Ingredient(4, 'ingredient1', 'chef-fish')
@@ -193,6 +240,13 @@ const rice = new Ingredient(6, 'ingredient2')
 const ingredientsArr = [fish, rice] // update manually if you create a new ingredient
 console.log('ingredientsArr:', ingredientsArr)
 
+
+
+/* DISPLAY MODAL */
+function displayModal(text) {
+  modal.textContent = text
+  modal.classList.toggle('hidden')
+}
 
 
 
@@ -253,6 +307,7 @@ document.addEventListener('keyup', event => {
       player.hide()
       player.changeToFish()
     }
+
     // RICE - check if player is in front of rice
     if (player.position - board.width === rice.position) {
       if (isAnyPicked) {
@@ -265,19 +320,57 @@ document.addEventListener('keyup', event => {
 
     // PLATE - check if player is in front of plate
     if (player.position + 10 === plate.position) {
+
+      // if player has fish
       if (fish.isPicked === true) {
         player.resetClass()
         fish.drop()
         plate.changeToFish()
       }
+      
+      //if player has rice and fish is in plate
       if (fish.isInPlate === true && rice.isPicked === true) {
         player.resetClass()
         rice.drop()
         plate.changeToFishRice()
       }
+      
+      // if player has rice
       if (rice.isPicked === true) {
         rice.drop()
         player.resetClass()
+        plate.changeToRice()
+      }
+      
+      //if player has fish and rice is in plate
+      if (rice.isInPlate === true && fish.isPicked === true) {
+        player.resetClass()
+        fish.drop()
+        plate.changeToFishRice()
+      }
+    }
+
+    // TABLE - check if player is in front of plate (other side of the table)
+    if (player.position - 10 === plate.position) {
+      // if plate is ready
+      if (fish.isInPlate === true && rice.isInPlate === true) {
+        player.hide()
+        plate.hide()
+        player.changeToPlate()
+        plate.pick()
+      }
+    }
+
+    // PASS - check if player is in front of pass
+    if (player.position + 10 === pass.position) {
+      // if plate is ready
+      if (plate.isPicked === true) {
+        console.log('pass drop');
+        player.hide()
+        player.resetClass()
+        player.show()
+        plate.drop()
+        pass.showPlate()
       }
     }
   }   

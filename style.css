@@ -2,22 +2,43 @@
   box-sizing: border-box;
 }
 
+/* GRID AND CELLS */
 .grid {
   display: flex;
   height: 600px;
   width: 600px;
   flex-wrap: wrap;
+  font-size : 14px;
 }
 
 .cell {
-  border: 1px solid rgb(91, 91, 91);
+  border: 2px solid rgb(196, 174, 162);
   width: 60px;
   height: 60px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  background-color: rgb(217, 193, 179);
 }
 
+.cell2 {
+  background-color: rgb(208, 185, 171);
+}
+
+.top-row {
+  background-color: rgb(182, 145, 120);
+  border-left: none;
+  border-right: none;
+  border-bottom: solid 2px rgb(116, 91, 77);
+  
+}
+
+.section1 {
+  /* background-image: url("./images/background1.png"); */
+}
+
+
+/* INGREDIENTS */
 .ingredient1 {
   background-image: url('./images/fish.png');
 }
@@ -26,10 +47,19 @@
   background-image: url('./images/rice.png');
 }
 
+
+/* PASS */ 
 .the-pass {
   background-image: url('./images/pass.png');
 }
 
+.pass-plate {
+  background-image: url('./images/plate-fish-rice.png');
+}
+
+
+
+/* PLAYER */
 .player {
   background-image: url('./images/chef.png');
 }
@@ -42,6 +72,13 @@
   background-image: url('./images/chef-rice.png');
 }
 
+.chef-plate {
+  background-image: url('./images/chef-plate.png');
+}
+
+
+
+/* PLATE */
 .plate {
   background-image: url('./images/plate.png');
 }
@@ -50,10 +87,21 @@
   background-image: url('./images/plate-fish.png');
 }
 
+.plate-rice {
+  background-image: url('./images/plate-rice.png');
+}
+
 .plate-fish-rice {
   background-image: url('./images/plate-fish-rice.png');
 }
 
-.top-row {
-  background-color: rgb(204, 204, 204);
+
+
+/* MODALS */
+.hidden {
+  visibility: hidden;
+}
+
+.modal-text {
+  background-color: aqua;
 }
