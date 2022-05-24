@@ -13,6 +13,7 @@
   width: 550px;
   flex-wrap: wrap;
   font-size : 14px;
+  background-image: url('./images/background.png');
 }
 
 .cell {
@@ -33,16 +34,12 @@
   background-color: rgb(182, 145, 120);
   border-left: none;
   border-right: none;
-  border-bottom: solid 2px rgb(116, 91, 77);
+  border-bottom: solid 4px rgb(116, 91, 77);
   
 }
 
 .game-container {
   margin: 0px 20px;
-}
-
-.section1 {
-  /* background-image: url("./images/background1.png"); */
 }
 
 #header {
@@ -61,12 +58,14 @@ h1 {
   font-size: 40px;
   color: rgba(116, 91, 77, 0.5);
   text-shadow: 4px 4px 0 rgb(217, 193, 179, 0.5);
+  animation: colorchangetitle 5s infinite;
 }
 
 .score {
     font-family: 'VT323', monospace;
     font-size: 30px;
     color: rgba(116, 91, 77, 0.5);
+    animation: colorchangetitle 5s infinite;
 }
 
 
@@ -132,19 +131,21 @@ h1 {
 }
 
 .modal-text {
+  width: 550px;
   background-color: aqua;
   font-family: 'VT323', monospace;
   font-size: 28px;
 }
 
 #modal-popup {
+  width: 550px;
   display: flex;
   position: absolute;
   justify-content: center;
   align-self: center ;
   background-color: rgb(60, 255, 0);
   font-family: 'VT323', monospace;
-  font-size: 48px;
+  font-size: 44px;
   animation: colorchangebck 1s infinite alternate;
 }
 
@@ -183,4 +184,50 @@ h1 {
   75% {
     background-color: rgb(255, 106, 255);
   }
+}
+
+@keyframes colorchangetitle {
+  0% {        
+    color: rgb(116, 91, 77, 0.4);
+  }
+  50% {
+    color: rgba(116, 91, 77, 0.7);
+  }
+
+}
+
+
+/* PROGRESS BAR */
+
+.progress-bar-container {
+  position: absolute;
+  top: 327px;
+  left: 167px;
+}
+
+.progress {
+  background: rgb(0, 141, 26);
+  justify-content: flex-start;
+  border-radius: 100px;
+  align-items: center;
+  position: relative;
+  padding: 0 5px;
+  display: flex;
+  height: 25px;
+  width: 100px;
+
+}
+
+.progress-value {
+  animation: load 7s ease-in-out forwards;
+  box-shadow: 0 10px 40px -10px #fff;
+  border-radius: 100px;
+  background: rgb(22, 255, 65);
+  height: 20px;
+  width: 0;
+}
+
+@keyframes load {
+  0% { width: 0;}
+  100% { width: 100%;}
 }

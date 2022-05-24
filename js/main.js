@@ -2,7 +2,6 @@
 const gridContainer = document.querySelector('.grid')
 const cellsArr = []
 const modalPopUp = document.querySelector('#modal-popup')
-console.log('modalPopUp:', modalPopUp)
 
 
 
@@ -89,9 +88,10 @@ class Player {
 
   }
 
+  // make player move and check for boundaries
   moveUp() {
     // stop player from going in first row
-    if (this.position < 20) {
+    if (this.position < 20 || this.position === 63 || this.position === 64 || this.position === 65) {
       return
     }
     this.hide()
@@ -100,8 +100,8 @@ class Player {
   }
 
   moveDown() {
-    // stop player from going in last row
-    if (this.position > 79) {
+    // stop player from going in last row and in table
+    if (this.position > 79 || this.position === 43 || this.position === 44 || this.position === 45) {
       return
     }
     this.hide()
@@ -110,8 +110,8 @@ class Player {
   }
   
   moveLeft() {
-    // stop player from leaving board
-    if (this.position % (board.width) === 0) {
+    // stop player from leaving board and going in table
+    if (this.position % (board.width) === 0 || this.position === 56) {
       return
     }
     this.hide()
@@ -120,8 +120,8 @@ class Player {
   }
   
   moveRight() {
-    // stop player from leaving board
-    if ((this.position + 1) % (board.width) === 0) {
+    // stop player from leaving board and going in table
+    if ((this.position + 1) % (board.width) === 0 || this.position === 52) {
       return
     }
     this.hide()
@@ -193,7 +193,6 @@ class Plate {
 
     pick() {
       this.isPicked = !this.isPicked // change state of isPicked
-      console.log(`You picked the ${this.className}!`);
       }
 
     drop() {
@@ -225,7 +224,6 @@ class Ingredient {
     if (this.isInPlate) {return}
     cellsArr[this.position].classList.toggle(this.className) // toggle className when picked
     this.isPicked = !this.isPicked // change state of isPicked
-    console.log(`You picked the ${this.className}!`);
     }
 
   drop() {
@@ -239,8 +237,6 @@ const fish = new Ingredient(4, 'ingredient1', 'chef-fish')
 const rice = new Ingredient(6, 'ingredient2')
 
 const ingredientsArr = [fish, rice] // update manually if you create a new ingredient
-console.log('ingredientsArr:', ingredientsArr)
-
 
 
 /* DISPLAY MODAL */
@@ -281,6 +277,26 @@ function winPoint () {
 }
 
 
+/* PROGRESS BAR */
+const progressBar = document.querySelector('.progress-bar-container')
+
+function showProgressBar() {
+  //create div inside the progress bar container
+  progressBar.classList.toggle('hidden')
+  const newDiv = document.createElement('div')
+  newDiv.classList.add('progress')
+  progressBar.appendChild(newDiv)
+
+  // create div inside div inside container
+  const newDiv2 = document.createElement('div') 
+  newDiv2.classList.add('progress-value')
+  newDiv.appendChild(newDiv2)
+
+  // hide the container with setTimeout
+  setTimeout(() => {
+    progressBar.classList.toggle('hidden')
+  }, 7500);  
+}
 
 
 
@@ -288,7 +304,6 @@ function winPoint () {
 
 // Arrows
 document.addEventListener('keydown', function (event) {
-  // console.log(event.key, event.code)
 
   switch (event.key) {
     case 'ArrowUp':
@@ -370,6 +385,7 @@ document.addEventListener('keyup', event => {
         rice.drop()
         plate.changeToFishRice()
         displayModal2('All your ingredients are in the plate! Pick it up!')
+        showProgressBar()
       }
       
       // if player has rice
@@ -384,6 +400,7 @@ document.addEventListener('keyup', event => {
         player.resetClass()
         fish.drop()
         plate.changeToFishRice()
+        showProgressBar()
         displayModal2('All your ingredients are in the plate!')
       }
     }
@@ -404,7 +421,6 @@ document.addEventListener('keyup', event => {
     if (player.position + 10 === pass.position) {
       // if plate is ready
       if (plate.isPicked === true) {
-        console.log('pass drop');
         player.hide()
         player.resetClass()
         player.show()
