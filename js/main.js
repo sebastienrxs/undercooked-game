@@ -2,8 +2,6 @@
 const gridContainer = document.querySelector('.grid')
 const cellsArr = []
 const modal = document.querySelector('#modal')
-const scoreCounter = 0
-const scoreField = document.querySelector('#score-span')
 
 
 
@@ -268,6 +266,19 @@ function displayModal2(text) {
 }
 
 
+/* WIN POINT */
+let scoreCounter = 0
+let scoreNumber = document.querySelector('#score-span')
+let scoreText = document.querySelector('.score')
+
+function winPoint () {
+  scoreCounter += 1
+  scoreNumber.textContent = scoreCounter
+  scoreText.classList.add('color-change')
+  setTimeout(() => {
+    scoreText.classList.remove('color-change')
+  }, 3000);
+}
 
 
 
@@ -316,14 +327,13 @@ document.addEventListener('keyup', event => {
     for(var i=0; i<ingredientsArr.length; i++) {
       if(ingredientsArr[i].isInPlate === true) {
         isAnyInPlate = true;
-        break;
       }      
     }
         
     // PICK FISH - check if player is in front of fish
     if (player.position - board.width === fish.position) {
       // if one ingredient is already picked, cant pick another one
-      if (isAnyPicked) {
+      if (isAnyPicked || fish.isInPlate) {
         return
       }  
       fish.pick()
@@ -334,7 +344,7 @@ document.addEventListener('keyup', event => {
 
     // PICK RICE - check if player is in front of rice
     if (player.position - board.width === rice.position) {
-      if (isAnyPicked) {
+      if (isAnyPicked || rice.isInPlate) {
         return
         } 
       rice.pick()
@@ -398,8 +408,7 @@ document.addEventListener('keyup', event => {
         player.show()
         plate.drop()
         pass.showPlate()
-        scoreCounter += 1
-        scoreField.textContent = scoreCounter
+        winPoint()
       }
     }
   }   
