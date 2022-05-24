@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+
 * {
   box-sizing: border-box;
 }
@@ -5,16 +8,16 @@
 /* GRID AND CELLS */
 .grid {
   display: flex;
-  height: 600px;
-  width: 600px;
+  height: 550px;
+  width: 550px;
   flex-wrap: wrap;
   font-size : 14px;
 }
 
 .cell {
   border: 2px solid rgb(196, 174, 162);
-  width: 60px;
-  height: 60px;
+  width: 55px;
+  height: 55px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -35,6 +38,29 @@
 
 .section1 {
   /* background-image: url("./images/background1.png"); */
+}
+
+#header {
+  width: 550px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+
+
+/* TEXTS */
+h1 {
+  font-family: 'VT323', monospace;
+  font-size: 40px;
+  color: rgba(116, 91, 77, 0.5);
+  text-shadow: 4px 4px 0 rgb(217, 193, 179, 0.5);
+}
+
+.score {
+    font-family: 'VT323', monospace;
+    font-size: 30px;
+    color: rgba(116, 91, 77, 0.5);
 }
 
 
@@ -104,4 +130,28 @@
 
 .modal-text {
   background-color: aqua;
+  font-family: 'VT323', monospace;
+  font-size: 28px;
+}
+
+
+/* ANIMATIONS */
+
+.color-change {
+  -webkit-animation:colorchange 1s infinite alternate;
+}
+
+@-webkit-keyframes colorchange {
+  0% {        
+    color: blue;
+  }
+  25% {
+    color: red;
+  }
+  50% {
+    color: green;
+  }
+  75% {
+    color: magenta;
+  }
 }

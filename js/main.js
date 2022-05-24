@@ -2,6 +2,8 @@
 const gridContainer = document.querySelector('.grid')
 const cellsArr = []
 const modal = document.querySelector('#modal')
+const scoreCounter = 0
+const scoreField = document.querySelector('#score-span')
 
 
 
@@ -245,8 +247,29 @@ console.log('ingredientsArr:', ingredientsArr)
 /* DISPLAY MODAL */
 function displayModal(text) {
   modal.textContent = text
-  modal.classList.toggle('hidden')
+  let toggleHidden = () => {modal.classList.toggle('hidden')}
+  toggleHidden()
+  // setTimeout(toggleHidden(), 3000)
 }
+
+function displayModal2(text) {
+
+  const sectionModal = document.querySelector('#section-modal')
+  const newModal = document.createElement('div')
+  newModal.classList.add('modal-text')
+  newModal.textContent = text
+  sectionModal.appendChild(newModal)
+
+  let toggleHidden = () => {newModal.classList.toggle('hidden')}
+  setTimeout(() => {
+    toggleHidden()
+    sectionModal.removeChild(newModal)
+  }, 1000);
+}
+
+
+
+
 
 
 
@@ -297,7 +320,7 @@ document.addEventListener('keyup', event => {
       }      
     }
         
-    // FISH - check if player is in front of fish
+    // PICK FISH - check if player is in front of fish
     if (player.position - board.width === fish.position) {
       // if one ingredient is already picked, cant pick another one
       if (isAnyPicked) {
@@ -306,9 +329,10 @@ document.addEventListener('keyup', event => {
       fish.pick()
       player.hide()
       player.changeToFish()
+      displayModal2('You picked the fish!') // chose text to display in modal
     }
 
-    // RICE - check if player is in front of rice
+    // PICK RICE - check if player is in front of rice
     if (player.position - board.width === rice.position) {
       if (isAnyPicked) {
         return
@@ -316,9 +340,10 @@ document.addEventListener('keyup', event => {
       rice.pick()
       player.hide()
       player.changeToRice()
+      displayModal2('You picked the rice!')
     }
 
-    // PLATE - check if player is in front of plate
+    // DROP IN PLATE - check if player is in front of plate
     if (player.position + 10 === plate.position) {
 
       // if player has fish
@@ -326,6 +351,7 @@ document.addEventListener('keyup', event => {
         player.resetClass()
         fish.drop()
         plate.changeToFish()
+        displayModal2('The fish is in the plate!')
       }
       
       //if player has rice and fish is in plate
@@ -333,6 +359,7 @@ document.addEventListener('keyup', event => {
         player.resetClass()
         rice.drop()
         plate.changeToFishRice()
+        displayModal2('All your ingredients are in the plate!')
       }
       
       // if player has rice
@@ -350,7 +377,7 @@ document.addEventListener('keyup', event => {
       }
     }
 
-    // TABLE - check if player is in front of plate (other side of the table)
+    // PICK PLATE - check if player is in front of plate (other side of the table)
     if (player.position - 10 === plate.position) {
       // if plate is ready
       if (fish.isInPlate === true && rice.isInPlate === true) {
@@ -361,7 +388,7 @@ document.addEventListener('keyup', event => {
       }
     }
 
-    // PASS - check if player is in front of pass
+    // DROP IN PASS - check if player is in front of pass
     if (player.position + 10 === pass.position) {
       // if plate is ready
       if (plate.isPicked === true) {
@@ -371,6 +398,8 @@ document.addEventListener('keyup', event => {
         player.show()
         plate.drop()
         pass.showPlate()
+        scoreCounter += 1
+        scoreField.textContent = scoreCounter
       }
     }
   }   
