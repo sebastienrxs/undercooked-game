@@ -1,17 +1,8 @@
 // const and query selectors
-const modalPopUp = document.querySelector('#modal-popup')
-const modalInstructions = document.querySelector('#instructions-modal')
-const progressBar = document.querySelector('.progress-bar-container')
-const startButton = document.getElementById('start-btn')
-let scoreNumber = document.querySelector('#score-span')
-let scoreText = document.querySelector('.score')
 const gridContainer = document.querySelector('.grid')
 const cellsArr = []
-let plate = null
-let ingredientsArr = null
-let scoreCounter = 0
-let isStarted = false
-let board=null, player=null, pass=null, intervalId
+const modalPopUp = document.querySelector('#modal-popup')
+
 
 
  /* ------ GAMEBOARD CLASS ------ */
@@ -21,6 +12,7 @@ class GameBoard {
     this.height = height
     this.cells = this._createCells() // call the method to create cells
   }
+
   _createCells() {
     const size = this.width * this.height
     for (let i = 0; i < size; i++) {
@@ -51,6 +43,7 @@ class GameBoard {
 
 
 // create new board
+const board = new GameBoard(10, 10)
 
 
 
@@ -70,6 +63,14 @@ class Player {
   hide() {
     // remove 'player' class and classes added by pick()
     cellsArr[this.position].classList.remove('player', 'chef-fish', 'chef-rice', 'chef-plate')
+  }
+
+  reset() {
+    this.hide()
+    this.position = this.initialPosition
+    this.className = 'player'
+    cellsArr[this.position].classList.add(this.className)
+
   }
   
   resetClass() {
@@ -141,7 +142,8 @@ class Player {
 }
 
 // create and show player
-
+const player = new Player
+player.show()
 
 
 
@@ -149,6 +151,7 @@ class Player {
 class Pass {
   constructor() {
     this.position = 99
+    this.show = this.show() // show pass when created
   }
 
   show() {
@@ -162,7 +165,7 @@ class Pass {
 }
 
 // create and show pass
-
+const pass = new Pass
 
 
 
@@ -213,8 +216,8 @@ class Plate {
     }
 }  
 
-// const plate = new Plate
-// plate.show()
+const plate = new Plate
+plate.show()
 
 
 
@@ -251,11 +254,14 @@ class Ingredient {
 }
 
 
-// // create and show ingredients
-// const fish = new Ingredient(0, 5, 'ingredient1')
-// const rice = new Ingredient(5, 10,'ingredient2')
+// create and show ingredients
+const fish = new Ingredient(0, 5, 'ingredient1')
+const rice = new Ingredient(5, 10,'ingredient2')
 
-// const ingredientsArr = [fish, rice] // update manually if you create a new ingredient
+fish.show()
+rice.show(  )
+
+const ingredientsArr = [fish, rice] // update manually if you create a new ingredient
 
 // setTimeout(() => {
 //   fish.reset()
@@ -264,7 +270,7 @@ class Ingredient {
 
 
 
-/* ------ MODALS ------ */
+/* ------ DISPLAY MODAL ------ */
 function displayModal(text) {
   modalPopUp.textContent = text
   let toggleHidden = () => {modalPopUp.classList.toggle('hidden')}
@@ -288,9 +294,10 @@ function displayModal2(text) {
 }
 
 
-
-
 /* ------ WIN POINT ------ */
+let scoreCounter = 0
+let scoreNumber = document.querySelector('#score-span')
+let scoreText = document.querySelector('.score')
 
 function winPoint () {
   scoreCounter += 1
@@ -304,6 +311,7 @@ function winPoint () {
 
 
 /* ------ PROGRESS BAR ------ */
+const progressBar = document.querySelector('.progress-bar-container')
 
 function showProgressBar() {
   //create div inside the progress bar container
@@ -311,7 +319,7 @@ function showProgressBar() {
   const newDiv = document.createElement('div')
   newDiv.classList.add('progress')
   progressBar.appendChild(newDiv)
-  
+
   // create div inside div inside container
   const newDiv2 = document.createElement('div') 
   newDiv2.classList.add('progress-value')
@@ -330,7 +338,7 @@ function timer() {
   let time = 29
   const timerElement = document.getElementById("timer")
 
-  intervalId = setInterval(() => {
+  setInterval(() => {
     let minutes = parseInt(time / 60, 10)
     let secondes = parseInt(time % 60, 10)
 
@@ -338,63 +346,40 @@ function timer() {
     secondes = secondes < 10 ? "0" + secondes : secondes
 
     timerElement.innerText = `${minutes}:${secondes}`
-    // time = time <= 0 ? 0 : time - 1
-    if (time === 0) {
-      console.log('gqme over')
-      clearInterval(intervalId)
-    }
-    time -= 1
+    time = time <= 0 ? 0 : time - 1
 }, 1000)
 }
+
+timer()
 
 
 
 /* ------ START GAME ------ */
-// called when start button pressed
 
 function startGame () {
-
-  if (!isStarted) {
-    startButton.blur() // change focus to prevent clicking the button with space bar
-    displayModal2('Pick the fish!')
-    timer()
-
-    board = new GameBoard(10, 10)
-    player = new Player
-    player.show()
-
-    pass = new Pass
-    pass.show()
-    
-    plate = new Plate
-    plate.show()
-    
-    // create and show ingredients
-    fish = new Ingredient(0, 5, 'ingredient1')
-    fish.show()
-    
-    rice = new Ingredient(5, 10,'ingredient2')
-    rice.show()
-    ingredientsArr = [fish, rice] // update manually if you create a new ingredient
-    
-    isStarted = true
-  }
+  timer()
+  
 }
 
 
+/* ------ RESET GAME ------ */
 
+function resetGame() {
+  player.reset()
+  fish.reset()
+  console.log("hello reset game");
 
-
-
+}
 
 
 /* ------ EVENT LISTENERS ------ */
 
-// Start game
-startButton.addEventListener('click', startGame)
+// Reset Button
+const resetButton = document.querySelector('#reset-btn')
+resetButton.addEventListener('click', resetGame)
 
 // On load
-// document.addEventListener('load', displayModal2('Start with the fish!'))
+document.addEventListener('load', displayModal2('Go get the fish!'))
 
 // Arrows
 document.addEventListener('keydown', function (event) {
