@@ -6,7 +6,6 @@
   font-family: 'VT323', monospace;
 }
 
-
 /* GRID AND CELLS */
 .background {
 display: flex;
@@ -53,6 +52,7 @@ z-index: -10;
 
 .game-container {
   margin: 0px 20px;
+  width: 550px;
 }
 
 #header {
@@ -67,22 +67,24 @@ z-index: -10;
 
 /* TEXTS */
 h1 {
+  justify-content: center;
   font-size: 40px;
   color: rgba(116, 91, 77, 0.5);
   text-shadow: 4px 4px 0 rgb(217, 193, 179, 0.5);
   animation: colorchangetitle 5s infinite;
 }
 
-.score {
-    font-size: 30px;
+.timer, .score {
+    font-size: 26px;
     color: rgba(116, 91, 77, 0.5);
     animation: colorchangetitle 5s infinite;
 }
 
-.timer {
-    font-size: 20px;
-    color: rgba(116, 91, 77, 0.5);
-    animation: colorchangetitle 5s infinite;
+/* BUTTONS */
+
+button {
+  font-size: 1.2em;
+
 }
 
 /* INGREDIENTS */
@@ -101,7 +103,7 @@ h1 {
 }
 
 .pass-plate {
-  background-image: url('./images/plate-fish-rice.png');
+  background-image: url('./images/pass-plate.png');
 }
 
 

@@ -1,17 +1,29 @@
-// const and query selectors
-const modalPopUp = document.querySelector('#modal-popup')
-const modalInstructions = document.querySelector('#instructions-modal')
-const progressBar = document.querySelector('.progress-bar-container')
+ /* ------ QUERY SELECTORS ------ */
+ let scoreNumber = document.querySelector('#score-span')
+ let scoreText = document.querySelector('.score')
+ const gridContainer = document.querySelector('.grid')
+ const progressBar = document.querySelector('.progress-bar-container')
+ const timerElement = document.getElementById("timer")
+
+ // modals
+const popUpModal = document.querySelector('#modal-popup')
+const instructionsModal = document.querySelector('#instructions-modal')
+
+// buttons
 const startButton = document.getElementById('start-btn')
-let scoreNumber = document.querySelector('#score-span')
-let scoreText = document.querySelector('.score')
-const gridContainer = document.querySelector('.grid')
-const cellsArr = []
+const resetButton = document.getElementById('reset-btn')
+const instructionsButton = document.getElementById('instructions-btn')
+
+
+
+/* ------ VARIABLES ------ */
+let cellsArr = []
 let plate = null
 let ingredientsArr = null
 let scoreCounter = 0
 let isStarted = false
 let board=null, player=null, pass=null, intervalId
+
 
 
  /* ------ GAMEBOARD CLASS ------ */
@@ -42,15 +54,12 @@ class GameBoard {
       }
 
       newCell.dataset.index = i // add index as text in the cell
-      newCell.textContent = newCell.dataset.index
+      // newCell.textContent = newCell.dataset.index
       gridContainer.appendChild(newCell)
       cellsArr.push(newCell)
     }
   } 
 }
-
-
-// create new board
 
 
 
@@ -101,7 +110,7 @@ class Player {
   // make player move and check for boundaries
   moveUp() {
     // stop player from going in first row
-    if (this.position < 20 || this.position === 63 || this.position === 64 || this.position === 65) {
+    if (this.position < 20 || this.position === 63 || this.position === 64 || this.position === 65 || this.position === 66) {
       return
     }
     this.hide()
@@ -111,7 +120,7 @@ class Player {
 
   moveDown() {
     // stop player from going in last row and in table
-    if (this.position > 79 || this.position === 43 || this.position === 44 || this.position === 45) {
+    if (this.position > 79 || this.position === 43 || this.position === 44 || this.position === 45 || this.position === 46) {
       return
     }
     this.hide()
@@ -121,7 +130,7 @@ class Player {
   
   moveLeft() {
     // stop player from leaving board and going in table
-    if (this.position % (board.width) === 0 || this.position === 56) {
+    if (this.position % (board.width) === 0 || this.position === 56 || this.position === 57) {
       return
     }
     this.hide()
@@ -266,8 +275,8 @@ class Ingredient {
 
 /* ------ MODALS ------ */
 function displayModal(text) {
-  modalPopUp.textContent = text
-  let toggleHidden = () => {modalPopUp.classList.toggle('hidden')}
+  popUpModal.textContent = text
+  let toggleHidden = () => {popUpModal.classList.toggle('hidden')}
   toggleHidden()
 }
 
@@ -328,7 +337,7 @@ function showProgressBar() {
 
 function timer() {
   let time = 29
-  const timerElement = document.getElementById("timer")
+  
 
   intervalId = setInterval(() => {
     let minutes = parseInt(time / 60, 10)
@@ -339,8 +348,10 @@ function timer() {
 
     timerElement.innerText = `${minutes}:${secondes}`
     // time = time <= 0 ? 0 : time - 1
+
+    // Game over and clear interval
     if (time === 0) {
-      console.log('gqme over')
+      console.log('Game over')
       clearInterval(intervalId)
     }
     time -= 1
@@ -384,6 +395,22 @@ function startGame () {
 
 
 
+/* ------ RESET GAME ------ */
+
+function resetGame() {
+  clearInterval(intervalId)
+  timerElement.textContent = '00:00'
+  gridContainer.innerHTML=''
+  player = null
+  plate = null
+  pass = null
+  fish = null
+  rice = null
+  ingredientsArr = null
+  isStarted = false
+  cellsArr = []
+}
+
 
 
 
@@ -393,8 +420,14 @@ function startGame () {
 // Start game
 startButton.addEventListener('click', startGame)
 
-// On load
-// document.addEventListener('load', displayModal2('Start with the fish!'))
+// Reset game
+resetButton.addEventListener('click', resetGame)
+
+// Instructions
+function showInstructions() {
+  instructionsModal.className.toggle('hidden')
+}
+instructionsButton.addEventListener('click', showInstructions)
 
 // Arrows
 document.addEventListener('keydown', function (event) {
