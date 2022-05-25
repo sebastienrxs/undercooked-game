@@ -106,7 +106,7 @@ class Player {
 
   moveDown() {
     // stop player from going in last row and in table
-    if (this.position > 79 || this.position === 43 || this.position === 44 || this.position === 45 || this.position === 46) {
+    if (this.position > 79 || this.position === 43 || this.position === 44 || this.position === 45) {
       return
     }
     this.hide()
@@ -116,7 +116,7 @@ class Player {
   
   moveLeft() {
     // stop player from leaving board and going in table
-    if (this.position % (board.width) === 0 || this.position === 57) {
+    if (this.position % (board.width) === 0 || this.position === 56) {
       return
     }
     this.hide()
@@ -212,9 +212,9 @@ plate.show()
 
 /* ------ INGREDIENTS CLASS ------ */
 class Ingredient {
-  constructor(min, max, className, chefClassName) {
+  constructor(position, className, chefClassName) {
     this.className = className
-    this.position = Math.floor(Math.random() * (max - min) + min)
+    this.position = position
     this.show = this.show() // show ingredient when created
     this.isPicked = false
     this.isInPlate = false
@@ -295,7 +295,7 @@ function winPoint () {
   scoreCounter += 1
   scoreNumber.textContent = scoreCounter
   scoreText.classList.add('color-change')
-
+  
   setTimeout(() => {
     scoreText.classList.remove('color-change')
   }, 3000);
