@@ -62,7 +62,7 @@ class Player {
   
   hide() {
     // remove 'player' class and classes added by pick()
-    cellsArr[this.position].classList.remove(this.className, fish.chefClassName, rice.chefClassName)
+    cellsArr[this.position].classList.remove('player', 'chef-fish', 'chef-rice', 'chef-plate')
   }
   
   resetClass() {
@@ -207,9 +207,9 @@ plate.show()
 
 /*  INGREDIENTS CLASS  */
 class Ingredient {
-  constructor(position, className, chefClassName) {
+  constructor(min, max, className, chefClassName) {
     this.className = className
-    this.position = position
+    this.position = Math.floor(Math.random() * (max - min) + min)
     this.show = this.show() // show ingredient when created
     this.isPicked = false
     this.isInPlate = false
@@ -245,10 +245,10 @@ const rice = new Ingredient(5, 10,'ingredient2')
 
 const ingredientsArr = [fish, rice] // update manually if you create a new ingredient
 
-setTimeout(() => {
-  fish.reset()
+// setTimeout(() => {
+//   fish.reset()
   
-}, 3000);
+// }, 3000);
 
 
 
