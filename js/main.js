@@ -5,7 +5,7 @@ const modalPopUp = document.querySelector('#modal-popup')
 
 
 
- /* GAMEBOARD CLASS */
+ /* ------ GAMEBOARD CLASS ------ */
 class GameBoard {
   constructor(width, height) {
     this.width = width
@@ -47,7 +47,7 @@ const board = new GameBoard(10, 10)
 
 
 
-/* PLAYER CLASS */
+/* ------ PLAYER CLASS ------ */
 class Player {
   constructor() {
     this.initialPosition = 21
@@ -73,16 +73,19 @@ class Player {
 
     // change player's class when ingredient is picked
   changeToFish() {
+    this.hide()
     cellsArr[this.position].classList.add('chef-fish')
     this.className = 'chef-fish'
   }
 
   changeToRice() {
+    this.hide()
     cellsArr[this.position].classList.add('chef-rice')
     this.className = 'chef-rice'
   }
 
   changeToPlate(){
+    this.hide()
     cellsArr[this.position].classList.add('chef-plate')
     this.className = 'chef-plate'
 
@@ -136,7 +139,7 @@ player.show()
 
 
 
-/* PASS CLASS */
+/* ------ PASS CLASS ------ */
 class Pass {
   constructor() {
     this.position = 99
@@ -158,12 +161,13 @@ const pass = new Pass
 
 
 
-/* PLATE CLASS */
+/* ------ PLATE CLASS ------ */
 class Plate {
   constructor() {
     this.position = 53
     this.isPicked = false
-    this.className = 'plate'
+    // this.className = 'plate'
+    this.isInPass = false
     // this.show = this.show() // show plate when created
     }
 
@@ -177,17 +181,20 @@ class Plate {
     }
 
     changeToFish() {
-      this.className = ''
+      // this.className = ''
+      this.hide()
       cellsArr[this.position].classList.add('plate-fish')
     }
 
     changeToFishRice() {
-      this.className = ''
+      // this.className = ''
+      this.hide()
       cellsArr[this.position].classList.add('plate-fish-rice')
     }
 
     changeToRice() {
-      this.className = ''
+      // this.className = ''
+      this.hide()
       cellsArr[this.position].classList.add('plate-rice')
     }
 
@@ -197,6 +204,7 @@ class Plate {
 
     drop() {
       this.isPicked = !this.isPicked
+      this.isInPass = !this.isInPass
     }
 }  
 
@@ -205,7 +213,7 @@ plate.show()
 
 
 
-/*  INGREDIENTS CLASS  */
+/* ------ INGREDIENTS CLASS ------ */
 class Ingredient {
   constructor(min, max, className) {
     this.className = className
@@ -251,7 +259,7 @@ const ingredientsArr = [fish, rice] // update manually if you create a new ingre
 
 
 
-/* DISPLAY MODAL */
+/* ------ DISPLAY MODAL ------ */
 function displayModal(text) {
   modalPopUp.textContent = text
   let toggleHidden = () => {modalPopUp.classList.toggle('hidden')}
@@ -275,7 +283,7 @@ function displayModal2(text) {
 }
 
 
-/* WIN POINT */
+/* ------ WIN POINT ------ */
 let scoreCounter = 0
 let scoreNumber = document.querySelector('#score-span')
 let scoreText = document.querySelector('.score')
@@ -291,7 +299,7 @@ function winPoint () {
 }
 
 
-/* PROGRESS BAR */
+/* ------ PROGRESS BAR ------ */
 const progressBar = document.querySelector('.progress-bar-container')
 
 function showProgressBar() {
@@ -313,6 +321,8 @@ function showProgressBar() {
 }
 
 
+/* ------ TIMER ------ */
+
 function timer() {
   let time = 29
   const timerElement = document.getElementById("timer")
@@ -333,8 +343,16 @@ timer()
 
 
 
+/* ------ START GAME ------ */
 
-/* EVENT LISTENERS */
+function startGame () {
+  timer()
+
+}
+
+
+
+/* ------ EVENT LISTENERS ------ */
 
 // On load
 document.addEventListener('load', displayModal2('Start with the fish!'))
@@ -409,7 +427,7 @@ document.addEventListener('keyup', event => {
     if (player.position + 10 === plate.position) {
 
       // if player has fish
-      if (fish.isPicked === true) {
+      if (fish.isPicked && !rice.isInPlate) {
         player.resetClass()
         fish.drop()
         plate.changeToFish()
@@ -417,23 +435,23 @@ document.addEventListener('keyup', event => {
       }
       
       //if player has rice and fish is in plate
-      if (fish.isInPlate === true && rice.isPicked === true) {
+      if (fish.isInPlate&& rice.isPicked) {
         player.resetClass()
         rice.drop()
         plate.changeToFishRice()
-        displayModal2('Pick the plate up from the other side of the table!')
         showProgressBar()
+        displayModal2('Pick the plate up from the other side of the table!')
       }
       
       // if player has rice
-      if (rice.isPicked === true) {
+      if (rice.isPicked && !fish.isInPlate) {
         rice.drop()
         player.resetClass()
         plate.changeToRice()
       }
       
       //if player has fish and rice is in plate
-      if (rice.isInPlate === true && fish.isPicked === true) {
+      if (rice.isInPlate && fish.isPicked) {
         player.resetClass()
         fish.drop()
         plate.changeToFishRice()
@@ -469,7 +487,3 @@ document.addEventListener('keyup', event => {
     }
   }   
 })
-
-
-
-
