@@ -207,13 +207,12 @@ plate.show()
 
 /*  INGREDIENTS CLASS  */
 class Ingredient {
-  constructor(min, max, className, chefClassName) {
+  constructor(min, max, className) {
     this.className = className
     this.position = Math.floor(Math.random() * (max - min) + min)
     this.show = this.show() // show ingredient when created
     this.isPicked = false
     this.isInPlate = false
-    this.chefClassName = chefClassName
   }
 
   show() {
@@ -240,7 +239,7 @@ class Ingredient {
 
 
 // create and show ingredients
-const fish = new Ingredient(0, 5, 'ingredient1', 'chef-fish')
+const fish = new Ingredient(0, 5, 'ingredient1')
 const rice = new Ingredient(5, 10,'ingredient2')
 
 const ingredientsArr = [fish, rice] // update manually if you create a new ingredient
@@ -312,6 +311,26 @@ function showProgressBar() {
     progressBar.classList.toggle('hidden')
   }, 7500);  
 }
+
+
+function timer() {
+  let time = 29
+  const timerElement = document.getElementById("timer")
+
+  setInterval(() => {
+    let minutes = parseInt(time / 60, 10)
+    let secondes = parseInt(time % 60, 10)
+
+    minutes = minutes < 10 ? "0" + minutes : minutes
+    secondes = secondes < 10 ? "0" + secondes : secondes
+
+    timerElement.innerText = `${minutes}:${secondes}`
+    time = time <= 0 ? 0 : time - 1
+}, 1000)
+}
+
+timer()
+
 
 
 
@@ -402,7 +421,7 @@ document.addEventListener('keyup', event => {
         player.resetClass()
         rice.drop()
         plate.changeToFishRice()
-        displayModal2('All your ingredients are in the plate! Pick it up!')
+        displayModal2('Pick the plate up from the other side of the table!')
         showProgressBar()
       }
       

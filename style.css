@@ -3,6 +3,7 @@
 * {
   box-sizing: border-box;
   margin: 0;
+  font-family: 'VT323', monospace;
 }
 
 
@@ -66,7 +67,6 @@ z-index: -10;
 
 /* TEXTS */
 h1 {
-  font-family: 'VT323', monospace;
   font-size: 40px;
   color: rgba(116, 91, 77, 0.5);
   text-shadow: 4px 4px 0 rgb(217, 193, 179, 0.5);
@@ -74,12 +74,16 @@ h1 {
 }
 
 .score {
-    font-family: 'VT323', monospace;
     font-size: 30px;
     color: rgba(116, 91, 77, 0.5);
     animation: colorchangetitle 5s infinite;
 }
 
+.timer {
+    font-size: 20px;
+    color: rgba(116, 91, 77, 0.5);
+    animation: colorchangetitle 5s infinite;
+}
 
 /* INGREDIENTS */
 .ingredient1 {
@@ -145,8 +149,8 @@ h1 {
 .modal-text {
   width: 550px;
   background-color: aqua;
-  font-family: 'VT323', monospace;
   font-size: 28px;
+  animation: fadeOut 0.5s ease-in-out 1.5s 1;
 }
 
 #modal-popup {
@@ -156,7 +160,6 @@ h1 {
   justify-content: center;
   align-self: center ;
   background-color: rgb(60, 255, 0);
-  font-family: 'VT323', monospace;
   font-size: 44px;
   animation: colorchangebck 1s infinite alternate;
 }
@@ -205,6 +208,11 @@ h1 {
   50% {
     color: rgba(116, 91, 77, 0.7);
   }
+}
+
+@keyframes fadeOut {
+  0% {opacity:1;}
+  100% {opacity:0;}
 }
 
 
