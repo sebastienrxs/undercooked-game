@@ -230,13 +230,26 @@ class Ingredient {
     this.isPicked = false
     this.isInPlate = true
   }
+
+  reset() {
+    this.show()
+    this.isPicked = false
+    this.isInPlate = false
+  }
 }
+
 
 // create and show ingredients
 const fish = new Ingredient(4, 'ingredient1', 'chef-fish')
 const rice = new Ingredient(6, 'ingredient2')
 
 const ingredientsArr = [fish, rice] // update manually if you create a new ingredient
+
+setTimeout(() => {
+  fish.reset()
+  
+}, 3000);
+
 
 
 /* DISPLAY MODAL */
@@ -248,12 +261,13 @@ function displayModal(text) {
 
 function displayModal2(text) {
 
-  const sectionModal = document.querySelector('#section-modal')
-  const newModal = document.createElement('div')
-  newModal.classList.add('modal-text')
-  newModal.textContent = text
-  sectionModal.appendChild(newModal)
+  const sectionModal = document.querySelector('#section-modal') // select section
+  const newModal = document.createElement('div') // create div
+  newModal.classList.add('modal-text') // add class
+  newModal.textContent = text //parse text input
+  sectionModal.appendChild(newModal) // append div to section
 
+  // hide after x seconds
   let toggleHidden = () => {newModal.classList.toggle('hidden')}
   setTimeout(() => {
     toggleHidden()
@@ -271,6 +285,7 @@ function winPoint () {
   scoreCounter += 1
   scoreNumber.textContent = scoreCounter
   scoreText.classList.add('color-change')
+  
   setTimeout(() => {
     scoreText.classList.remove('color-change')
   }, 3000);

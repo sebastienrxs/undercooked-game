@@ -7,34 +7,46 @@
 
 
 /* GRID AND CELLS */
+.background {
+display: flex;
+position: absolute;
+z-index: -10;
+}
+
+.background img {
+  width: 550px;
+  height: 550px;
+  image-rendering: pixelated;
+}
+
 .grid {
   display: flex;
   height: 550px;
   width: 550px;
   flex-wrap: wrap;
   font-size : 14px;
-  background-image: url('./images/background.png');
+  /* background-image: url('./images/background.png'); */
 }
 
 .cell {
-  border: 2px solid rgb(196, 174, 162);
+  /* border: 2px solid rgb(196, 174, 162); */
   width: 55px;
   height: 55px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgb(217, 193, 179);
+  /* background-color: rgb(217, 193, 179); */
 }
 
 .cell2 {
-  background-color: rgb(208, 185, 171);
+  /* background-color: rgb(208, 185, 171); */
 }
 
 .top-row {
-  background-color: rgb(182, 145, 120);
+  /* background-color: rgb(182, 145, 120); */
   border-left: none;
   border-right: none;
-  border-bottom: solid 4px rgb(116, 91, 77);
+  /* border-bottom: solid 4px rgb(116, 91, 77); */
   
 }
 
@@ -193,7 +205,6 @@ h1 {
   50% {
     color: rgba(116, 91, 77, 0.7);
   }
-
 }
 
 
@@ -208,22 +219,21 @@ h1 {
 .progress {
   background: rgb(0, 141, 26);
   justify-content: flex-start;
-  border-radius: 100px;
+  /* border-radius: 100px; */
   align-items: center;
   position: relative;
   padding: 0 5px;
   display: flex;
-  height: 25px;
+  height: 20px;
   width: 100px;
-
 }
 
 .progress-value {
   animation: load 7s ease-in-out forwards;
   box-shadow: 0 10px 40px -10px #fff;
-  border-radius: 100px;
+  /* border-radius: 100px; */
   background: rgb(22, 255, 65);
-  height: 20px;
+  height: 15px;
   width: 0;
 }
 
