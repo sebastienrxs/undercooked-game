@@ -101,7 +101,7 @@ class Player {
 
   moveDown() {
     // stop player from going in last row and in table
-    if (this.position > 79 || this.position === 43 || this.position === 44 || this.position === 45) {
+    if (this.position > 79 || this.position === 43 || this.position === 44 || this.position === 45 || this.position === 46) {
       return
     }
     this.hide()
@@ -111,7 +111,7 @@ class Player {
   
   moveLeft() {
     // stop player from leaving board and going in table
-    if (this.position % (board.width) === 0 || this.position === 56) {
+    if (this.position % (board.width) === 0 || this.position === 57) {
       return
     }
     this.hide()
@@ -205,11 +205,11 @@ plate.show()
 
 
 
-/*  INGREDIENT CLASS  */
+/*  INGREDIENTS CLASS  */
 class Ingredient {
-  constructor(position, className, chefClassName) {
+  constructor(min, max, className, chefClassName) {
     this.className = className
-    this.position = position
+    this.position = Math.floor(Math.random() * (max - min) + min)
     this.show = this.show() // show ingredient when created
     this.isPicked = false
     this.isInPlate = false
@@ -240,8 +240,8 @@ class Ingredient {
 
 
 // create and show ingredients
-const fish = new Ingredient(4, 'ingredient1', 'chef-fish')
-const rice = new Ingredient(6, 'ingredient2')
+const fish = new Ingredient(0, 5, 'ingredient1', 'chef-fish')
+const rice = new Ingredient(5, 10,'ingredient2')
 
 const ingredientsArr = [fish, rice] // update manually if you create a new ingredient
 
@@ -285,7 +285,7 @@ function winPoint () {
   scoreCounter += 1
   scoreNumber.textContent = scoreCounter
   scoreText.classList.add('color-change')
-  
+
   setTimeout(() => {
     scoreText.classList.remove('color-change')
   }, 3000);
@@ -316,6 +316,9 @@ function showProgressBar() {
 
 
 /* EVENT LISTENERS */
+
+// On load
+document.addEventListener('load', displayModal2('Start with the fish!'))
 
 // Arrows
 document.addEventListener('keydown', function (event) {
