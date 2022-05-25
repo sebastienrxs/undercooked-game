@@ -14,6 +14,12 @@ const startButton = document.getElementById('start-btn')
 const resetButton = document.getElementById('reset-btn')
 const instructionsButton = document.getElementById('instructions-btn')
 
+// audio
+const walkAudio = document.querySelector("audio#walk")
+const pickUpAudio = document.querySelector("audio#pickup")
+const smallWinAudio = document.querySelector("audio#small-win")
+const dropAudio = document.querySelector("audio#drop")
+
 
 
 /* ------ VARIABLES ------ */
@@ -116,6 +122,7 @@ class Player {
     this.hide()
     this.position -= board.width
     this.show()
+    walkAudio.play()
   }
 
   moveDown() {
@@ -126,6 +133,7 @@ class Player {
     this.hide()
     this.position += board.width
     this.show()
+    walkAudio.play()
   }
   
   moveLeft() {
@@ -136,6 +144,7 @@ class Player {
     this.hide()
     this.position -= 1
     this.show()
+    walkAudio.play()
   }
   
   moveRight() {
@@ -146,6 +155,7 @@ class Player {
     this.hide()
     this.position += 1
     this.show()
+    walkAudio.play()
   }
 }
 
@@ -214,6 +224,7 @@ class Plate {
 
     pick() {
       this.isPicked = !this.isPicked // change state of isPicked
+      pickUpAudio.play()
       }
 
     drop() {
@@ -245,11 +256,13 @@ class Ingredient {
     if (this.isInPlate) {return}
     cellsArr[this.position].classList.toggle(this.className) // toggle className when picked
     this.isPicked = !this.isPicked // change state of isPicked
+    pickUpAudio.play()
     }
 
   drop() {
     this.isPicked = false
     this.isInPlate = true
+    dropAudio.play()
   }
 
   reset() {
@@ -298,6 +311,13 @@ function displayModal2(text) {
 
 
 
+/* ------ GAME OVER ------ */
+
+function gameOver() {
+displayModal('You lost...')
+}
+
+
 
 /* ------ WIN POINT ------ */
 
@@ -329,6 +349,7 @@ function showProgressBar() {
   // hide the container with setTimeout
   setTimeout(() => {
     progressBar.classList.toggle('hidden')
+
   }, 7500);  
 }
 
@@ -351,7 +372,7 @@ function timer() {
 
     // Game over and clear interval
     if (time === 0) {
-      console.log('Game over')
+      gameOver()
       clearInterval(intervalId)
     }
     time -= 1
@@ -398,6 +419,7 @@ function startGame () {
 /* ------ RESET GAME ------ */
 
 function resetGame() {
+  resetButton.blur()
   clearInterval(intervalId)
   timerElement.textContent = '00:00'
   gridContainer.innerHTML=''
@@ -409,6 +431,8 @@ function resetGame() {
   ingredientsArr = null
   isStarted = false
   cellsArr = []
+  popUpModal.classList.add('hidden')
+  progressBar.innerHTML=''
 }
 
 
@@ -481,7 +505,7 @@ document.addEventListener('keyup', event => {
       fish.pick()
       player.hide()
       player.changeToFish()
-      displayModal2('You picked the fish!') // chose text to display in modal
+      displayModal2('Put the fish in the plate!') // chose text to display in modal
     }
 
     // PICK RICE - check if player is in front of rice
@@ -492,7 +516,7 @@ document.addEventListener('keyup', event => {
       rice.pick()
       player.hide()
       player.changeToRice()
-      displayModal2('You picked the rice!')
+      displayModal2('Put the rice in the plate!')
     }
 
     // DROP IN PLATE - check if player is in front of plate
@@ -555,6 +579,7 @@ document.addEventListener('keyup', event => {
         pass.showPlate()
         winPoint()
         displayModal('Congrats! The customer is happy!')
+        smallWinAudio.play()
       }
     }
   }   

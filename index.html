@@ -10,33 +10,41 @@
 
   </head>
   <body>
-    <section class="game-container">
-      <div><h1>Undercooked</h1></div>
-      <header id="header">
-        <button id="start-btn">START</button>
-        <button id="reset-btn">RESET</button>
-        <button id="instructions-btn">INSTRUCTIONS</button>
-        <div id="timer">00:OO</div>
-        <div class="score">Score: <span id="score-span">0</span></div>
-      </header>
-    
-      <section class="section1">
-        <div class="background"><img src="./images/background-purple.png" alt=""></div>
-        <div class="grid"></div>
+    <div id="container">
+      <section class="game-container">
+        <div><h1>Undercooked</h1></div>
+        <header id="header">
+          <div>
+            <button id="start-btn">START</button>
+            <button id="reset-btn">RESET</button>
+            <button id="instructions-btn">INSTRUCTIONS</button>
+          </div>
+          <div id="timer">00:OO</div>
+          <div class="score">Score: <span id="score-span">0</span></div>
+        </header>
+        
+        <section class="section1">
+          <div class="background"><img src="./images/background-purple.png" alt=""></div>
+          <div class="grid"></div>
+        </section>
+        
+        <section id="section-modal">
+          <div id="modal-popup" class="hidden">This is a modal</div>
+          <div id="instructions-modal" class="hidden">Instructions are easy!</div>
+        </section>
       </section>
-      
-      <section id="section-modal">
-        <div id="modal-popup" class="hidden">This is a modal</div>
-        <div id="instructions-modal" class="hidden">Instructions are easy!</div>
-      </section>
-    </section>
-<div>
-  <div class="progress-bar-container hidden">
-    <!-- <div class="progress">
-      <div class="progress-value"></div> -->
+      <div>
+        <div class="progress-bar-container hidden">
+          <!-- <div class="progress">
+            <div class="progress-value"></div> -->
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+    <audio id="walk" src="./audio/walk.wav"></audio>
+    <audio id="small-win" src="./audio/small-win.wav"></audio>
+    <audio id="pickup" src="./audio/pickup.wav"></audio>
+    <audio id="drop" src="./audio/drop.wav"></audio>
     <script src="./js/main.js"></script>
   </body>
 </html>
