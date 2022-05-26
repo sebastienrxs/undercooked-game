@@ -13,6 +13,7 @@ body {
   overflow: hidden; 
 }
 
+
 /* GRID AND CELLS */
 #container {
   height: 100%;
@@ -80,7 +81,6 @@ z-index: -10;
 }
 
 
-
 /* TEXTS */
 h1 {
   justify-content: center;
@@ -96,22 +96,30 @@ h1 {
     animation: colorchangetitle 2s infinite;
 }
 
-/* BUTTONS */
+strong {
+  /* fake bold */
+  text-shadow: 1px 0 0 currentColor;
+}
 
+
+/* BUTTONS */
 button {
   font-size: 1.2em;
   background-color: rgba(220, 248, 194);
   border: 2px solid rgb(107 166 51);
   padding: 2px 10px;
-
 }
 
 button:hover {
   cursor: pointer;
   background-color: rgb(143, 211, 80);
-
-
 }
+
+button#instructions-btn {
+  background-color: transparent;
+}
+
+
 /* INGREDIENTS */
 .ingredient1 {
   background-image: url('./images/fish.png');
@@ -221,6 +229,14 @@ button:hover {
   box-shadow: 8px 8px 0 rgba(116, 91, 77, 0.4);
 
 }
+
+#welcome-modal .modal-big {
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  background: rgba(251, 228, 215, 0.95);
+}
+
 .message {
   font-size:1.1rem;
   margin-bottom: 1.6rem;

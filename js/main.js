@@ -10,12 +10,15 @@
 const popUpModal = document.querySelector('#modal-popup')
 const instructionsModal = document.querySelector('#instructions-modal')
 const popUpModalLose = document.querySelector('#modal-popup-lose')
-const instructionsCloseButton = document.getElementById('instructions-close-btn')
+const welcomeModal = document.getElementById('welcome-modal')
 
 // buttons
 const startButton = document.getElementById('start-btn')
 const resetButton = document.getElementById('reset-btn')
+const reloadButton = document.getElementById('reload-btn')
 const instructionsButton = document.getElementById('instructions-btn')
+const welcomeCloseButton = document.getElementById('welcome-close-btn')
+const instructionsCloseButton = document.getElementById('instructions-close-btn')
 
 // audio
 const walkAudio = document.querySelector("audio#walk")
@@ -304,7 +307,6 @@ function displayModalLose(text) {
 }
 
 function displayModal2(text) {
-
   const sectionModal = document.querySelector('#section-modal') // select section
   const newModal = document.createElement('div') // create div
   newModal.classList.add('modal-text') // add class
@@ -319,12 +321,24 @@ function displayModal2(text) {
   }, 2000);
 }
 
+// Instructions modal
+function showInstructions() {
+  instructionsModal.classList.toggle('hidden')
+}
+function closeInstructions() {
+  instructionsModal.classList.toggle('hidden')
+}
+
+// Welcome modal
+function closeWelcome() {
+  welcomeModal.classList.toggle('hidden')
+}
 
 
 /* ------ GAME OVER ------ */
 
-function gameOver() {
-displayModalLose('You lost...')
+function gameOver(text) {
+displayModalLose(text)
 }
 
 
@@ -374,8 +388,8 @@ function timer() {
     // time = time <= 0 ? 0 : time - 1
 
     // Game over and clear interval
-    if (time === 0) {
-      gameOver()
+    if (time === 0 && scoreCounter === 0) {
+      gameOver("Time's up! You lose...")
       clearInterval(intervalId)
     }
     time -= 1
@@ -454,6 +468,28 @@ function resetGame() {
 
 /* ------ RELOAD GAME ------ */
 
+// function reloadGame() {
+//   resetButton.blur()
+
+//   // reset variables
+//   player = null
+//   plate = null
+//   pass = null
+//   fish = null
+//   rice = null
+//   ingredientsArr = null
+//   isGameStarted = false
+//   cellsArr = []
+
+//   //remove modals
+//   popUpModal.classList.add('hidden')
+//   popUpModalLose.classList.add('hidden')
+
+//   // remove progress bar
+//   progressBar.innerHTML=''
+
+//   startGame()
+// }
 
 
 
@@ -465,17 +501,15 @@ startButton.addEventListener('click', startGame)
 // Reset game
 resetButton.addEventListener('click', resetGame)
 
+// Reload
+// reloadButton.addEventListener('click', reloadGame)
+
 // Instructions
-function showInstructions() {
-  instructionsModal.classList.toggle('hidden')
-}
 instructionsButton.addEventListener('click', showInstructions)
-
-function closeInstructions() {
-  instructionsModal.classList.toggle('hidden')
-}
-
 instructionsCloseButton.addEventListener('click', closeInstructions)
+
+//Welcome modal
+welcomeCloseButton.addEventListener('click', closeWelcome)
 
 // Arrows
 document.addEventListener('keydown', function (event) {
@@ -594,6 +628,12 @@ document.addEventListener('keyup', event => {
 
     // DROP IN PASS - check if player is in front of pass
     if (player.position + 10 === pass.position) {
+      //
+      if (plate.isPicked && !progressBar.classList.contains('hidden')) {
+        gameOver('The fish is RAW! You lose...')
+
+      }
+
       // if plate is ready
       if (plate.isPicked === true) {
         player.hide()
