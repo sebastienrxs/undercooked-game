@@ -2,12 +2,15 @@
  let scoreNumber = document.querySelector('#score-span')
  let scoreText = document.querySelector('.score')
  const gridContainer = document.querySelector('.grid')
- const progressBar = document.querySelector('.progress-bar-container')
+ let progressBar = null
  const timerElement = document.getElementById("timer")
+ const templateProgressBar = document.querySelector('#template-progress-bar')
 
  // modals
 const popUpModal = document.querySelector('#modal-popup')
 const instructionsModal = document.querySelector('#instructions-modal')
+const popUpModalLose = document.querySelector('#modal-popup-lose')
+const instructionsCloseButton = document.getElementById('instructions-close-btn')
 
 // buttons
 const startButton = document.getElementById('start-btn')
@@ -27,7 +30,7 @@ let cellsArr = []
 let plate = null
 let ingredientsArr = null
 let scoreCounter = 0
-let isStarted = false
+let isGameStarted = false
 let board=null, player=null, pass=null, intervalId
 
 
@@ -293,6 +296,13 @@ function displayModal(text) {
   toggleHidden()
 }
 
+function displayModalLose(text) {
+  popUpModalLose.textContent = text
+  popUpModalLose.classList.remove
+  let toggleHidden = () => {popUpModalLose.classList.toggle('hidden')}
+  toggleHidden()
+}
+
 function displayModal2(text) {
 
   const sectionModal = document.querySelector('#section-modal') // select section
@@ -314,7 +324,7 @@ function displayModal2(text) {
 /* ------ GAME OVER ------ */
 
 function gameOver() {
-displayModal('You lost...')
+displayModalLose('You lost...')
 }
 
 
@@ -332,33 +342,26 @@ function winPoint () {
 }
 
 
+
 /* ------ PROGRESS BAR ------ */
 
 function showProgressBar() {
-  //create div inside the progress bar container
-  progressBar.classList.toggle('hidden')
-  const newDiv = document.createElement('div')
-  newDiv.classList.add('progress')
-  progressBar.appendChild(newDiv)
-  
-  // create div inside div inside container
-  const newDiv2 = document.createElement('div') 
-  newDiv2.classList.add('progress-value')
-  newDiv.appendChild(newDiv2)
+  let clone = templateProgressBar.content.cloneNode(true);
+  cellsArr[53].appendChild(clone)
+  progressBar = document.querySelector('.progress-bar-container')
 
-  // hide the container with setTimeout
+    // hide the container with setTimeout
   setTimeout(() => {
     progressBar.classList.toggle('hidden')
-
-  }, 7500);  
+  }, 7500);    
 }
+
 
 
 /* ------ TIMER ------ */
 
 function timer() {
   let time = 29
-  
 
   intervalId = setInterval(() => {
     let minutes = parseInt(time / 60, 10)
@@ -385,8 +388,7 @@ function timer() {
 // called when start button pressed
 
 function startGame () {
-
-  if (!isStarted) {
+  if (!isGameStarted) {
     startButton.blur() // change focus to prevent clicking the button with space bar
     displayModal2('Pick the fish!')
     timer()
@@ -409,7 +411,7 @@ function startGame () {
     rice.show()
     ingredientsArr = [fish, rice] // update manually if you create a new ingredient
     
-    isStarted = true
+    isGameStarted = true
   }
 }
 
@@ -420,21 +422,37 @@ function startGame () {
 
 function resetGame() {
   resetButton.blur()
+
+  // reset timer
   clearInterval(intervalId)
   timerElement.textContent = '00:00'
   gridContainer.innerHTML=''
+
+  // reset variables
   player = null
   plate = null
   pass = null
   fish = null
   rice = null
   ingredientsArr = null
-  isStarted = false
+  isGameStarted = false
   cellsArr = []
+
+  //remove modals
   popUpModal.classList.add('hidden')
+  popUpModalLose.classList.add('hidden')
+
+  // remove progress bar
   progressBar.innerHTML=''
+
+  // reset score
+  scoreCounter = 0
+  scoreNumber.textContent = scoreCounter
 }
 
+
+
+/* ------ RELOAD GAME ------ */
 
 
 
@@ -449,9 +467,15 @@ resetButton.addEventListener('click', resetGame)
 
 // Instructions
 function showInstructions() {
-  instructionsModal.className.toggle('hidden')
+  instructionsModal.classList.toggle('hidden')
 }
 instructionsButton.addEventListener('click', showInstructions)
+
+function closeInstructions() {
+  instructionsModal.classList.toggle('hidden')
+}
+
+instructionsCloseButton.addEventListener('click', closeInstructions)
 
 // Arrows
 document.addEventListener('keydown', function (event) {

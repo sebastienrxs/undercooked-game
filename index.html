@@ -30,17 +30,41 @@
         
         <section id="section-modal">
           <div id="modal-popup" class="hidden">This is a modal</div>
-          <div id="instructions-modal" class="hidden">Instructions are easy!</div>
-        </section>
-      </section>
-      <div>
-        <div class="progress-bar-container hidden">
-          <!-- <div class="progress">
-            <div class="progress-value"></div> -->
+          <div id="modal-popup-lose" class="hidden">This is a modal</div>
+          
+          <!-- MODAL -->
+          <div id="instructions-modal" class="hidden">
+              <div class="modal-big">
+                <div class="message">
+                  <h2>Instructions</h2>
+                  <p><strong>Who are you?</strong> You're a chef!</p>
+                  <p><strong>Your goal:</strong> make the customers happy!</p>
+                  <p><strong>How?</strong> Prepare the dishes and send them in time!</p>
+                </div>
+                <div class="options">
+                  <button id="instructions-close-btn" class="btn-modal">Back to game</button>
+                </div>
+              </div>
           </div>
+        </section>
+      </section>      
+     
+
+
+
+    
+    </div>
+
+    <!-- TEMPLATE -->
+    <template id="template-progress-bar">
+      <div class="progress-bar-container">
+        <div class="progress">
+          <div class="progress-value"></div>
         </div>
       </div>
-    </div>
+    </template>
+
+    <!-- AUDIO -->
     <audio id="walk" src="./audio/walk.wav"></audio>
     <audio id="small-win" src="./audio/small-win.wav"></audio>
     <audio id="pickup" src="./audio/pickup.wav"></audio>
