@@ -235,6 +235,12 @@ button#instructions-btn {
   height: 100vh;
   justify-content: center;
   background: rgba(251, 228, 215, 0.95);
+  border: 10px solid #4d3a30;
+}
+
+#welcome-modal h1 {
+  font-size: 68px;
+  margin-bottom: 2rem;
 }
 
 .message {

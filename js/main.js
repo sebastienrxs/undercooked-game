@@ -25,6 +25,11 @@ const walkAudio = document.querySelector("audio#walk")
 const pickUpAudio = document.querySelector("audio#pickup")
 const smallWinAudio = document.querySelector("audio#small-win")
 const dropAudio = document.querySelector("audio#drop")
+const backgroundAudio = document.querySelector("audio#background")
+backgroundAudio.volume = 0.15
+walkAudio.volume = 1
+pickUpAudio.volume = 0.5
+dropAudio.volume = 1
 
 
 
@@ -332,6 +337,7 @@ function closeInstructions() {
 // Welcome modal
 function closeWelcome() {
   welcomeModal.classList.toggle('hidden')
+  backgroundAudio.play()
 }
 
 
