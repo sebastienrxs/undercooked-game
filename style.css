@@ -243,6 +243,7 @@ button#instructions-btn, #mute-btn {
   justify-content: center;
   background: rgba(251, 228, 215, 0.95);
   border: 10px solid #4d3a30;
+  cursor: url("./images/coin-1.png"), auto;
 }
 
 #welcome-modal h1 {
@@ -278,6 +279,14 @@ button#instructions-btn, #mute-btn {
   box-shadow: 0.4rem 0.4rem 0 black;
   /* move button and shadow */
   transform: translate(-0.2rem, -0.2rem);
+}
+
+#welcome-close-btn {
+  padding :80px 20px;
+}
+
+#welcome-close-btn:hover {
+  cursor: url("./images/coin-2.png"), auto; 
 }
 
 .btn-modal:active {
