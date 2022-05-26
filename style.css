@@ -115,7 +115,7 @@ button:hover {
   background-color: rgb(143, 211, 80);
 }
 
-button#instructions-btn {
+button#instructions-btn, #mute-btn {
   background-color: transparent;
 }
 
@@ -209,6 +209,13 @@ button#instructions-btn {
   background-color: rgb(255, 0, 64);
   font-size: 34px;
 }
+
+.insert-coin {
+  text-align: center;
+  font-size: 2rem;
+  animation: blinker 1s linear infinite;
+}
+
 
 
 /* BIG MODAL */
@@ -337,6 +344,12 @@ button#instructions-btn {
 @keyframes fadeOut {
   0% {opacity:1;}
   100% {opacity:0;}
+}
+
+@keyframes blinker {
+  75% {
+    opacity: 0;
+  }
 }
 
 

@@ -19,15 +19,18 @@ const reloadButton = document.getElementById('reload-btn')
 const instructionsButton = document.getElementById('instructions-btn')
 const welcomeCloseButton = document.getElementById('welcome-close-btn')
 const instructionsCloseButton = document.getElementById('instructions-close-btn')
+const muteButton = document.getElementById('mute-btn')
 
 // audio
+const allAudio = document.querySelectorAll("audio")
 const walkAudio = document.querySelector("audio#walk")
 const pickUpAudio = document.querySelector("audio#pickup")
 const smallWinAudio = document.querySelector("audio#small-win")
 const dropAudio = document.querySelector("audio#drop")
 const backgroundAudio = document.querySelector("audio#background")
-backgroundAudio.volume = 0.15
-walkAudio.volume = 1
+const startAudio = document.querySelector("audio#start-audio")
+backgroundAudio.volume = 0.2
+walkAudio.volume = 0.3
 pickUpAudio.volume = 0.5
 dropAudio.volume = 1
 
@@ -432,6 +435,8 @@ function startGame () {
     ingredientsArr = [fish, rice] // update manually if you create a new ingredient
     
     isGameStarted = true
+
+    startAudio.play()
   }
 }
 
@@ -468,6 +473,14 @@ function resetGame() {
   // reset score
   scoreCounter = 0
   scoreNumber.textContent = scoreCounter
+}
+
+
+
+/* ------ Mute sound ------ */
+
+function mutePage() {
+  allAudio.forEach( elem => elem.muted = !elem.muted);
 }
 
 
@@ -514,8 +527,11 @@ resetButton.addEventListener('click', resetGame)
 instructionsButton.addEventListener('click', showInstructions)
 instructionsCloseButton.addEventListener('click', closeInstructions)
 
-//Welcome modal
+// Welcome modal
 welcomeCloseButton.addEventListener('click', closeWelcome)
+
+// Mute
+muteButton.addEventListener('click', mutePage)
 
 // Arrows
 document.addEventListener('keydown', function (event) {
