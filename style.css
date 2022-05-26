@@ -119,6 +119,11 @@ button#instructions-btn, #mute-btn {
   background-color: transparent;
 }
 
+#start-btn {
+  animation: grow-btn 1.7s linear infinite;
+}
+
+
 
 /* INGREDIENTS */
 .ingredient1 {
@@ -358,6 +363,18 @@ button#instructions-btn, #mute-btn {
 @keyframes blinker {
   75% {
     opacity: 0;
+  }
+}
+
+@keyframes grow-btn {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 

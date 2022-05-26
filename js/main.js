@@ -362,7 +362,7 @@ function winPoint () {
   
   setTimeout(() => {
     scoreText.classList.remove('color-change')
-  }, 3000);
+  }, 7000);
 }
 
 
@@ -398,9 +398,11 @@ function timer() {
     // time = time <= 0 ? 0 : time - 1
 
     // Game over and clear interval
-    if (time === 0 && scoreCounter === 0) {
-      gameOver("Time's up! You lose...")
+    if (time === 0) {
       clearInterval(intervalId)
+      if (time === 0 && scoreCounter === 0) {
+        gameOver("Time's up! You lose...")
+       }
     }
     time -= 1
 }, 1000)
@@ -654,7 +656,6 @@ document.addEventListener('keyup', event => {
       //
       if (plate.isPicked && !progressBar.classList.contains('hidden')) {
         gameOver('The fish is RAW! You lose...')
-
       }
 
       // if plate is ready
@@ -664,9 +665,12 @@ document.addEventListener('keyup', event => {
         player.show()
         plate.drop()
         pass.showPlate()
-        winPoint()
         displayModal('Congrats! The customer is happy!')
         smallWinAudio.play()
+
+        if(progressBar.classList.contains('hidden')) {
+          winPoint()
+        }
       }
     }
   }   
