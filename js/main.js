@@ -11,6 +11,7 @@ const popUpModal = document.querySelector('#modal-popup')
 const instructionsModal = document.querySelector('#instructions-modal')
 const popUpModalLose = document.querySelector('#modal-popup-lose')
 const welcomeModal = document.getElementById('welcome-modal')
+const sectionModal = document.querySelector('#section-modal')
 
 // buttons
 const startButton = document.getElementById('start-btn')
@@ -29,6 +30,8 @@ const smallWinAudio = document.querySelector("audio#small-win")
 const dropAudio = document.querySelector("audio#drop")
 const backgroundAudio = document.querySelector("audio#background")
 const startAudio = document.querySelector("audio#start-audio")
+
+//audio volume
 backgroundAudio.volume = 0.4
 walkAudio.volume = 0.3
 pickUpAudio.volume = 0.5
@@ -89,7 +92,6 @@ class Player {
     this.initialPosition = 21
     this.position = this.initialPosition
     this.className = 'player'
-    
   }
 
   show() {
@@ -107,7 +109,7 @@ class Player {
     this.show()
   }
 
-    // change player's class when ingredient is picked
+  // change player's class when ingredient is picked
   changeToFish() {
     this.hide()
     cellsArr[this.position].classList.add('chef-fish')
@@ -124,7 +126,6 @@ class Player {
     this.hide()
     cellsArr[this.position].classList.add('chef-plate')
     this.className = 'chef-plate'
-
   }
 
   // make player move and check for boundaries
@@ -173,9 +174,6 @@ class Player {
   }
 }
 
-// create and show player
-
-
 
 
 /* ------ PASS CLASS ------ */
@@ -194,9 +192,6 @@ class Pass {
   }
 }
 
-// create and show pass
-
-
 
 
 /* ------ PLATE CLASS ------ */
@@ -204,7 +199,6 @@ class Plate {
   constructor() {
     this.position = 53
     this.isPicked = false
-    // this.className = 'plate'
     this.isInPass = false
     // this.show = this.show() // show plate when created
     }
@@ -219,19 +213,16 @@ class Plate {
     }
 
     changeToFish() {
-      // this.className = ''
       this.hide()
       cellsArr[this.position].classList.add('plate-fish')
     }
 
     changeToFishRice() {
-      // this.className = ''
       this.hide()
       cellsArr[this.position].classList.add('plate-fish-rice')
     }
 
     changeToRice() {
-      // this.className = ''
       this.hide()
       cellsArr[this.position].classList.add('plate-rice')
     }
@@ -246,9 +237,6 @@ class Plate {
       this.isInPass = !this.isInPass
     }
 }  
-
-// const plate = new Plate
-// plate.show()
 
 
 
@@ -287,21 +275,9 @@ class Ingredient {
 }
 
 
-// // create and show ingredients
-// const fish = new Ingredient(0, 5, 'ingredient1')
-// const rice = new Ingredient(5, 10,'ingredient2')
-
-// const ingredientsArr = [fish, rice] // update manually if you create a new ingredient
-
-// setTimeout(() => {
-//   fish.reset()
-  
-// }, 3000);
-
-
 
 /* ------ MODALS ------ */
-function displayModal(text) {
+function displayModalEnd(text) {
   popUpModal.textContent = text
   let toggleHidden = () => {popUpModal.classList.toggle('hidden')}
   toggleHidden()
@@ -314,14 +290,13 @@ function displayModalLose(text) {
   toggleHidden()
 }
 
-function displayModal2(text) {
-  const sectionModal = document.querySelector('#section-modal') // select section
+function displayModalMessage(text) {
   const newModal = document.createElement('div') // create div
   newModal.classList.add('modal-text') // add class
   newModal.textContent = text //parse text input
   sectionModal.appendChild(newModal) // append div to section
 
-  // hide after x seconds
+  // hide modal after x seconds
   let toggleHidden = () => {newModal.classList.toggle('hidden')}
   setTimeout(() => {
     toggleHidden()
@@ -395,7 +370,6 @@ function timer() {
     secondes = secondes < 10 ? "0" + secondes : secondes
 
     timerElement.innerText = `${minutes}:${secondes}`
-    // time = time <= 0 ? 0 : time - 1
 
     // Game over and clear interval
     if (time === 0) {
@@ -416,7 +390,7 @@ function timer() {
 function startGame () {
   if (!isGameStarted) {
     startButton.blur() // change focus to prevent clicking the button with space bar
-    displayModal2('Pick the fish!')
+    displayModalMessage('Pick the fish!')
     timer()
 
     board = new GameBoard(10, 10)
@@ -445,9 +419,7 @@ function startGame () {
 
 
 
-
 /* ------ RESET GAME ------ */
-
 function resetGame() {
   resetButton.blur()
 
@@ -481,37 +453,9 @@ function resetGame() {
 
 
 /* ------ Mute sound ------ */
-
 function mutePage() {
   allAudio.forEach( elem => elem.muted = !elem.muted);
 }
-
-
-
-/* ------ RELOAD GAME ------ */
-
-// function reloadGame() {
-//   resetButton.blur()
-
-//   // reset variables
-//   player = null
-//   plate = null
-//   pass = null
-//   fish = null
-//   rice = null
-//   ingredientsArr = null
-//   isGameStarted = false
-//   cellsArr = []
-
-//   //remove modals
-//   popUpModal.classList.add('hidden')
-//   popUpModalLose.classList.add('hidden')
-
-//   // remove progress bar
-//   progressBar.innerHTML=''
-
-//   startGame()
-// }
 
 
 
@@ -522,9 +466,6 @@ startButton.addEventListener('click', startGame)
 
 // Reset game
 resetButton.addEventListener('click', resetGame)
-
-// Reload
-// reloadButton.addEventListener('click', reloadGame)
 
 // Instructions
 instructionsButton.addEventListener('click', showInstructions)
@@ -557,7 +498,6 @@ document.addEventListener('keydown', function (event) {
   }
 })
 
-
 // Space bar
 document.addEventListener('keyup', event => {
   if (event.code === 'Space') {
@@ -568,7 +508,7 @@ document.addEventListener('keyup', event => {
       if(ingredientsArr[i].isPicked === true) {
         isAnyPicked = true;
         break;
-      }      
+      }
     }
     
     // IN PLATE - check if any ingredient is in plate - NOT WORKING
@@ -576,9 +516,9 @@ document.addEventListener('keyup', event => {
     for(var i=0; i<ingredientsArr.length; i++) {
       if(ingredientsArr[i].isInPlate === true) {
         isAnyInPlate = true;
-      }      
+      }
     }
-        
+
     // PICK FISH - check if player is in front of fish
     if (player.position - board.width === fish.position) {
       // if one ingredient is already picked, cant pick another one
@@ -588,7 +528,7 @@ document.addEventListener('keyup', event => {
       fish.pick()
       player.hide()
       player.changeToFish()
-      displayModal2('Put the fish in the plate!') // chose text to display in modal
+      displayModalMessage('Put the fish in the plate!') // chose text to display in modal
     }
 
     // PICK RICE - check if player is in front of rice
@@ -599,7 +539,7 @@ document.addEventListener('keyup', event => {
       rice.pick()
       player.hide()
       player.changeToRice()
-      displayModal2('Put the rice in the plate!')
+      displayModalMessage('Put the rice in the plate!')
     }
 
     // DROP IN PLATE - check if player is in front of plate
@@ -610,7 +550,7 @@ document.addEventListener('keyup', event => {
         player.resetClass()
         fish.drop()
         plate.changeToFish()
-        displayModal2('You dropped the fish! Go get the rice!')
+        displayModalMessage('You dropped the fish! Go get the rice!')
       }
       
       //if player has rice and fish is in plate
@@ -619,7 +559,7 @@ document.addEventListener('keyup', event => {
         rice.drop()
         plate.changeToFishRice()
         showProgressBar()
-        displayModal2('Pick the plate up from the other side of the table!')
+        displayModalMessage('Pick the plate up from the other side of the table!')
       }
       
       // if player has rice
@@ -635,19 +575,19 @@ document.addEventListener('keyup', event => {
         fish.drop()
         plate.changeToFishRice()
         showProgressBar()
-        displayModal2('All your ingredients are in the plate!')
+        displayModalMessage('All your ingredients are in the plate!')
       }
     }
 
     // PICK PLATE - check if player is in front of plate (other side of the table)
     if (player.position - 10 === plate.position) {
       // if plate is ready
-      if (fish.isInPlate === true && rice.isInPlate === true) {
+      if (fish.isInPlate && rice.isInPlate) {
         player.hide()
         plate.hide()
         player.changeToPlate()
         plate.pick()
-        displayModal2('Bring the plate to the pass!')
+        displayModalMessage('Bring the plate to the pass!')
       }
     }
 
@@ -665,7 +605,7 @@ document.addEventListener('keyup', event => {
         player.show()
         plate.drop()
         pass.showPlate()
-        displayModal('Congrats! The customer is happy!')
+        displayModalEnd('Congrats! The customer is happy!')
         smallWinAudio.play()
 
         if(progressBar.classList.contains('hidden')) {

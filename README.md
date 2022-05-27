@@ -2,7 +2,7 @@
 
 ## What is Undercooked?
 
-Undercooked is a video game I made as part of my first project during my coding bootcamp at IronHack.
+Undercooked is a video game (if you can call it that) I made as part of my first project during my coding bootcamp at IronHack.
 
 ## What's the goal?
 
