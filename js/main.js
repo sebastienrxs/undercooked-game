@@ -1,53 +1,53 @@
  /* ------ QUERY SELECTORS ------ */
- let scoreNumber = document.querySelector('#score-span')
  let scoreText = document.querySelector('.score')
  const gridContainer = document.querySelector('.grid')
- let progressBar = null
  const timerElement = document.getElementById("timer")
+ let scoreNumber = document.querySelector('#score-span')
  const templateProgressBar = document.querySelector('#template-progress-bar')
-
+ 
  // modals
-const popUpModal = document.querySelector('#modal-popup')
-const instructionsModal = document.querySelector('#instructions-modal')
-const popUpModalLose = document.querySelector('#modal-popup-lose')
-const welcomeModal = document.getElementById('welcome-modal')
-const sectionModal = document.querySelector('#section-modal')
-
-// buttons
-const startButton = document.getElementById('start-btn')
-const resetButton = document.getElementById('reset-btn')
-const reloadButton = document.getElementById('reload-btn')
-const instructionsButton = document.getElementById('instructions-btn')
-const welcomeCloseButton = document.getElementById('welcome-close-btn')
-const instructionsCloseButton = document.getElementById('instructions-close-btn')
-const muteButton = document.getElementById('mute-btn')
-
-// audio
-const allAudio = document.querySelectorAll("audio")
-const walkAudio = document.querySelector("audio#walk")
-const pickUpAudio = document.querySelector("audio#pickup")
-const smallWinAudio = document.querySelector("audio#small-win")
-const dropAudio = document.querySelector("audio#drop")
-const backgroundAudio = document.querySelector("audio#background")
-const startAudio = document.querySelector("audio#start-audio")
-
-//audio volume
-backgroundAudio.volume = 0.4
-walkAudio.volume = 0.3
-pickUpAudio.volume = 0.5
-dropAudio.volume = 1
-
-
-
-/* ------ VARIABLES ------ */
-let cellsArr = []
-let plate = null
-let ingredientsArr = null
-let scoreCounter = 0
-let isGameStarted = false
-let board=null, player=null, pass=null, intervalId
-
-
+ const popUpModal = document.querySelector('#modal-popup')
+ const welcomeModal = document.getElementById('welcome-modal')
+ const sectionModal = document.querySelector('#section-modal')
+ const popUpModalLose = document.querySelector('#modal-popup-lose')
+ const instructionsModal = document.querySelector('#instructions-modal')
+ 
+ // buttons
+ const muteButton = document.getElementById('mute-btn')
+ const startButton = document.getElementById('start-btn')
+ const resetButton = document.getElementById('reset-btn')
+ const reloadButton = document.getElementById('reload-btn')
+ const instructionsButton = document.getElementById('instructions-btn')
+ const welcomeCloseButton = document.getElementById('welcome-close-btn')
+ const instructionsCloseButton = document.getElementById('instructions-close-btn')
+ 
+ // audio
+ const allAudio = document.querySelectorAll("audio")
+ const walkAudio = document.querySelector("audio#walk")
+ const dropAudio = document.querySelector("audio#drop")
+ const pickUpAudio = document.querySelector("audio#pickup")
+ const startAudio = document.querySelector("audio#start-audio")
+ const smallWinAudio = document.querySelector("audio#small-win")
+ const backgroundAudio = document.querySelector("audio#background")
+ 
+ //audio volume
+ backgroundAudio.volume = 0.4
+ walkAudio.volume = 0.3
+ pickUpAudio.volume = 0.5
+ dropAudio.volume = 1
+ 
+ 
+ 
+ /* ------ VARIABLES ------ */
+ let progressBar = null
+ let cellsArr = []
+ let plate = null
+ let ingredientsArr = null
+ let scoreCounter = 0
+ let isGameStarted = false
+ let board=null, player=null, pass=null, intervalId
+ 
+ 
 
  /* ------ GAMEBOARD CLASS ------ */
 class GameBoard {
@@ -89,7 +89,7 @@ class GameBoard {
 /* ------ PLAYER CLASS ------ */
 class Player {
   constructor() {
-    this.initialPosition = 21
+    this.initialPosition = Math.floor(Math.random() * (49 - 10) + 10)
     this.position = this.initialPosition
     this.className = 'player'
   }
@@ -301,7 +301,7 @@ function displayModalMessage(text) {
   setTimeout(() => {
     toggleHidden()
     sectionModal.removeChild(newModal)
-  }, 2000);
+  }, 3500);
 }
 
 // Instructions modal
@@ -324,6 +324,8 @@ function closeWelcome() {
 
 function gameOver(text) {
 displayModalLose(text)
+isGameStarted = false
+
 }
 
 
@@ -345,14 +347,15 @@ function winPoint () {
 /* ------ PROGRESS BAR ------ */
 
 function showProgressBar() {
+  // clone html template
   let clone = templateProgressBar.content.cloneNode(true);
   cellsArr[53].appendChild(clone)
   progressBar = document.querySelector('.progress-bar-container')
-
-    // hide the container with setTimeout
+  
+  // hide the container with setTimeout
   setTimeout(() => {
     progressBar.classList.toggle('hidden')
-  }, 7500);    
+  }, 7500);
 }
 
 
@@ -372,7 +375,7 @@ function timer() {
     timerElement.innerText = `${minutes}:${secondes}`
 
     // Game over and clear interval
-    if (time === 0) {
+    if (time === 0 || !isGameStarted) {
       clearInterval(intervalId)
       if (time === 0 && scoreCounter === 0) {
         gameOver("Time's up! You lose...")
@@ -452,6 +455,42 @@ function resetGame() {
 
 
 
+/* ------ RELOAD GAME ------ */
+function reloadGame() {
+  reloadButton.blur()
+
+  // reset timer
+  clearInterval(intervalId)
+  timerElement.textContent = '00:00'
+  gridContainer.innerHTML=''
+
+  // reset variables
+  player = null
+  plate = null
+  pass = null
+  fish = null
+  rice = null
+  ingredientsArr = null
+  isGameStarted = false
+  cellsArr = []
+
+  //remove modals
+  popUpModal.classList.add('hidden')
+  popUpModalLose.classList.add('hidden')
+
+  // remove progress bar
+  progressBar.innerHTML=''
+
+  startGame()
+
+  // // reset score
+  // scoreCounter = 0
+  // scoreNumber.textContent = scoreCounter
+}
+
+
+
+
 /* ------ Mute sound ------ */
 function mutePage() {
   allAudio.forEach( elem => elem.muted = !elem.muted);
@@ -467,6 +506,9 @@ startButton.addEventListener('click', startGame)
 // Reset game
 resetButton.addEventListener('click', resetGame)
 
+// Reload game
+reloadButton.addEventListener('click', reloadGame)
+
 // Instructions
 instructionsButton.addEventListener('click', showInstructions)
 instructionsCloseButton.addEventListener('click', closeInstructions)
@@ -480,7 +522,11 @@ muteButton.addEventListener('click', mutePage)
 // Arrows
 document.addEventListener('keydown', function (event) {
 
+  if (!isGameStarted) {
+    return
+  }
   switch (event.key) {
+
     case 'ArrowUp':
       player.moveUp()
       break
@@ -599,13 +645,14 @@ document.addEventListener('keyup', event => {
       }
 
       // if plate is ready
-      if (plate.isPicked === true) {
+      if (plate.isPicked) {
         player.hide()
         player.resetClass()
         player.show()
         plate.drop()
         pass.showPlate()
         displayModalEnd('Congrats! The customer is happy!')
+        isGameStarted = false
         smallWinAudio.play()
 
         if(progressBar.classList.contains('hidden')) {

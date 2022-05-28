@@ -190,7 +190,7 @@ button#instructions-btn, #mute-btn {
   max-width: 550px;
   background-color: #7fecff;
   font-size: 22px;
-  animation: fadeOut 0.5s ease-in-out 1.5s 1;
+  animation: fadeOut 0.5s ease-in-out 3s 1;
   padding: 3px 0px 3px 10px;
 }
 
@@ -203,6 +203,7 @@ button#instructions-btn, #mute-btn {
   background-color: rgb(60, 255, 0);
   font-size: 34px;
   animation: colorchangebck 1s infinite alternate;
+  z-index: 10;
 }
 
 #modal-popup-lose {
@@ -213,6 +214,7 @@ button#instructions-btn, #mute-btn {
   align-self: center ;
   background-color: rgb(255, 0, 64);
   font-size: 34px;
+  z-index: 10;
 }
 
 .insert-coin {
@@ -254,6 +256,11 @@ button#instructions-btn, #mute-btn {
 #welcome-modal h1 {
   font-size: 68px;
   margin-bottom: 2rem;
+}
+
+#welcome-text {
+  font-size: 1.5rem;
+  margin-top: 5rem;
 }
 
 .message {
