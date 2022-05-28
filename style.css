@@ -223,6 +223,18 @@ button#instructions-btn, #mute-btn {
   animation: blinker 1s linear infinite;
 }
 
+/* RELOAD MODAL */
+
+#reload-modal h2 {
+  text-align: center;
+  margin: 1rem 0rem 2rem;
+  animation: colorchange 1s infinite;
+}
+#reload-modal .score {
+  text-align: center;
+  animation: colorchange 1s infinite;
+}
+
 
 
 /* BIG MODAL */
@@ -322,16 +334,16 @@ button#instructions-btn, #mute-btn {
 
 @keyframes colorchange {
   0% {        
-    color: blue;
+    color: rgb(21, 17, 255);
   }
-  25% {
-    color: red;
+  33% {
+    color: rgb(255, 67, 255);
   }
-  50% {
-    color: green;
+  66% {
+    color: rgb(255, 56, 56);
   }
-  75% {
-    color: magenta;
+  100% {        
+    color: rgb(21, 17, 255);
   }
 }
 

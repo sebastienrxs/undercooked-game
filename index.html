@@ -19,10 +19,9 @@
             <button id="reset-btn">RESET</button>
             <button id="instructions-btn">INSTRUCTIONS</button>
             <button id="mute-btn">MUTE</button>
-            <button id="reload-btn">RELOAD</button>
           </div>
           <div id="timer">00:OO</div>
-          <div class="score">Score: <span id="score-span">0</span></div>
+          <div class="score">Score: <span class="score-span-1">0</span></div>
         </header>
         
         <section class="section1">
@@ -46,6 +45,21 @@
                 </div>
                 <div class="options">
                   <button id="instructions-close-btn" class="btn-modal">Back to game</button>
+                </div>
+              </div>
+          </div>
+
+          <!-- RELOAD MODAL -->
+          <div id="reload-modal" class="hidden">
+              <div class="modal-big">
+                <div class="message">
+                  <div class="score">Score: <span class="score-span-2">0</span></div>
+                  <h2>The client is happy!</h2>
+                  <p>You sent a delicious dish and the client loved it!</p>
+                  your score is : 00 <span id="score-modal"></span>
+                </div>
+                <div class="options">
+                  <button id="reload-btn" class="btn-modal">Keep playing</button>
                 </div>
               </div>
           </div>

@@ -2,7 +2,9 @@
  let scoreText = document.querySelector('.score')
  const gridContainer = document.querySelector('.grid')
  const timerElement = document.getElementById("timer")
- let scoreNumber = document.querySelector('#score-span')
+ let scoreNumber1 = document.querySelector('.score-span-1')
+ let scoreNumber2 = document.querySelector('.score-span-2')
+ let scoreNumberModal = document.querySelector('#score-modal')
  const templateProgressBar = document.querySelector('#template-progress-bar')
  
  // modals
@@ -11,6 +13,7 @@
  const sectionModal = document.querySelector('#section-modal')
  const popUpModalLose = document.querySelector('#modal-popup-lose')
  const instructionsModal = document.querySelector('#instructions-modal')
+ const reloadModal = document.querySelector('#reload-modal')
  
  // buttons
  const muteButton = document.getElementById('mute-btn')
@@ -319,6 +322,11 @@ function closeWelcome() {
   startAudio.play()
 }
 
+// Reload modal (keep playing)
+function displayReloadModal() {
+  reloadModal.classList.toggle('hidden')
+}
+
 
 /* ------ GAME OVER ------ */
 
@@ -334,8 +342,10 @@ isGameStarted = false
 
 function winPoint () {
   scoreCounter += 1
-  scoreNumber.textContent = scoreCounter
+  scoreNumber1.textContent = scoreCounter
+  scoreNumber2.textContent = scoreCounter
   scoreText.classList.add('color-change')
+  displayReloadModal()
   
   setTimeout(() => {
     scoreText.classList.remove('color-change')
@@ -481,11 +491,10 @@ function reloadGame() {
   // remove progress bar
   progressBar.innerHTML=''
 
-  startGame()
+  // close modal
+  reloadModal.classList.toggle('hidden')
 
-  // // reset score
-  // scoreCounter = 0
-  // scoreNumber.textContent = scoreCounter
+  startGame()
 }
 
 
@@ -644,14 +653,13 @@ document.addEventListener('keyup', event => {
         gameOver('The fish is RAW! You lose...')
       }
 
-      // if plate is ready
+      // if plate is ready, drop in pass
       if (plate.isPicked) {
         player.hide()
         player.resetClass()
         player.show()
         plate.drop()
-        pass.showPlate()
-        displayModalEnd('Congrats! The customer is happy!')
+        pass.showPlate()        
         isGameStarted = false
         smallWinAudio.play()
 
